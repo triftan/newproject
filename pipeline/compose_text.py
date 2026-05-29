@@ -6,20 +6,26 @@ unreliable at rendering text. So we render TEXT-FREE backgrounds, then bake the
 headline here with a real font — pixel-sharp, perfectly spelled, properly bold.
 
 Reads manifest.json (written by openai_render.py) and, for each slide, draws its
-headline (and optional subline) using the brand's display font. The original
-render is preserved as slides/raw-N.png so re-running is idempotent.
+headline (and optional subline) using a clean bold font. The original render is
+preserved as slides/raw-N.png so re-running is idempotent (you can retune
+typography for free, without re-rendering images).
 
 Usage:
     python3 pipeline/compose_text.py brands/<slug>/manifest.json
 
 Per-slide typography is read from each slide's optional "type" object in
-slides.json (carried through into manifest.json):
+slides.json (carried through into manifest.json). All fields optional:
     "type": {
-      "color": "#2B2B2B",        # headline color
-      "align": "left",            # left | center
-      "valign": "top",            # top | center | bottom
-      "accent": "#C56B4E",        # accent bar color (omit/null to hide)
-      "subline": "Link in bio",   # optional smaller line under the headline
+      "font": "Poppins-SemiBold.ttf",  # file in assets/fonts/
+      "color": "#2B2B2B",               # headline color
+      "size": 84,                        # MAX cap in px (auto-shrinks to fit)
+      "align": "left",                   # left | center
+      "valign": "top",                   # top | center | bottom
+      "tracking": -1.5,                  # letter spacing in px (negative=tighter)
+      "leading": 1.12,                   # line-height multiple
+      "accent": "#C56B4E",               # rule bar above headline (null hides)
+      "scrim": false,                    # soft contrast pad behind text
+      "subline": "Link in bio",          # optional small line under headline
       "subcolor": "#2B2B2B"
     }
 Sensible brand-derived defaults fill anything omitted.
@@ -34,41 +40,59 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ASSETS = Path(__file__).resolve().parent.parent / "assets" / "fonts"
-HEADLINE_FONTS = ["ArchivoBlack-Regular.ttf", "Anton-Regular.ttf"]
+DEFAULT_FONTS = ["Poppins-SemiBold.ttf", "Poppins-Bold.ttf", "ArchivoBlack-Regular.ttf"]
 FALLBACK_FONTS = [
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
     "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
 ]
 
+# Type scale (relative to a 1080px-wide canvas).
+MARGIN_FRAC = 0.078
+MAX_WIDTH_FRAC = 0.84
+DEFAULT_MAX_SIZE = 86
+MIN_SIZE = 34
+DEFAULT_LEADING = 1.12
+DEFAULT_TRACKING = -1.5
+MAX_LINES = 3
 
-def find_font() -> str:
-    for f in HEADLINE_FONTS:
-        p = ASSETS / f
+
+def resolve_font(name: str | None) -> str:
+    if name:
+        p = ASSETS / name
         if p.exists():
             return str(p)
+    for f in DEFAULT_FONTS:
+        if (ASSETS / f).exists():
+            return str(ASSETS / f)
     for p in FALLBACK_FONTS:
         if Path(p).exists():
             return p
-    raise RuntimeError("No bold font found (expected assets/fonts/ArchivoBlack-Regular.ttf)")
+    raise RuntimeError("No headline font found (expected assets/fonts/Poppins-SemiBold.ttf)")
 
 
-def luminance(hex_color: str) -> float:
-    h = hex_color.lstrip("#")
-    if len(h) != 6:
+def line_width(draw, text, font, tracking) -> float:
+    if not text:
         return 0.0
-    r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
-    return 0.299 * r + 0.587 * g + 0.114 * b
+    w = sum(draw.textlength(ch, font=font) for ch in text)
+    return w + tracking * (len(text) - 1)
 
 
-def wrap(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont,
-         max_w: int) -> list[str]:
-    """Greedy word-wrap to a pixel width."""
-    words = text.split()
-    lines, cur = [], ""
+def draw_line(draw, xy, text, font, fill, tracking):
+    x, y = xy
+    if tracking == 0:
+        draw.text((x, y), text, font=font, fill=fill)
+        return
+    for ch in text:
+        draw.text((x, y), ch, font=font, fill=fill)
+        x += draw.textlength(ch, font=font) + tracking
+
+
+def wrap(draw, text, font, max_w, tracking) -> list[str]:
+    words, lines, cur = text.split(), [], ""
     for w in words:
         trial = f"{cur} {w}".strip()
-        if draw.textlength(trial, font=font) <= max_w or not cur:
+        if line_width(draw, trial, font, tracking) <= max_w or not cur:
             cur = trial
         else:
             lines.append(cur)
@@ -78,31 +102,26 @@ def wrap(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont,
     return lines
 
 
-def fit_headline(draw, text, font_path, max_w, max_h, max_lines,
-                 start=150, min_size=40):
-    """Shrink font size until the wrapped headline fits the box."""
-    size = start
-    while size >= min_size:
+def fit_headline(draw, text, font_path, max_w, max_size, max_lines, tracking):
+    """Largest size <= max_size that wraps within width and line budget."""
+    size = max_size
+    while size >= MIN_SIZE:
         font = ImageFont.truetype(font_path, size)
-        lines = wrap(draw, text, font, max_w)
+        lines = wrap(draw, text, font, max_w, tracking)
         if len(lines) <= max_lines:
-            line_h = font.getbbox("Ag")[3] + int(size * 0.16)
-            if line_h * len(lines) <= max_h:
-                return font, lines, line_h
-        size -= 4
-    font = ImageFont.truetype(font_path, min_size)
-    return font, wrap(draw, text, font, max_w), font.getbbox("Ag")[3] + int(min_size * 0.16)
+            return font, lines, size
+        size -= 3
+    font = ImageFont.truetype(font_path, MIN_SIZE)
+    return font, wrap(draw, text, font, max_w, tracking), MIN_SIZE
 
 
-def compose_slide(slide: dict, brand_colors: list[str], out_dir: Path,
-                  font_path: str) -> None:
+def compose_slide(slide, brand_colors, out_dir, W_hint=1080):
     n = slide["n"]
     headline = slide.get("headline", "")
     cfg = slide.get("type", {}) or {}
 
     final = out_dir / (slide.get("file") or f"slide-{n}.png")
     raw = out_dir / f"raw-{n}.png"
-    # Source from the preserved raw render if present, else snapshot the render.
     if raw.exists():
         src = raw
     else:
@@ -114,54 +133,77 @@ def compose_slide(slide: dict, brand_colors: list[str], out_dir: Path,
 
     img = Image.open(src).convert("RGB")
     W, H = img.size
-    draw = ImageDraw.Draw(img)
+    draw = ImageDraw.Draw(img, "RGBA")
 
-    # Defaults derived from the brand palette.
     dark = brand_colors[2] if len(brand_colors) > 2 else "#1a1a1a"
-    cream = brand_colors[0] if brand_colors else "#f5f5f5"
     accent_default = brand_colors[1] if len(brand_colors) > 1 else "#ff4d00"
 
+    font_path = resolve_font(cfg.get("font"))
     color = cfg.get("color") or dark
     accent = cfg.get("accent", accent_default)
     align = cfg.get("align", "left")
     valign = cfg.get("valign", "top")
+    tracking = cfg.get("tracking", DEFAULT_TRACKING)
+    leading = cfg.get("leading", DEFAULT_LEADING)
+    max_size = int(cfg.get("size", round(DEFAULT_MAX_SIZE * W / 1080)))
     subline = cfg.get("subline")
     subcolor = cfg.get("subcolor") or color
 
-    margin = int(W * 0.075)
-    max_w = int(W * cfg.get("max_width_frac", 0.86))
-    max_lines = cfg.get("max_lines", 4)
-    box_h = int(H * 0.42)
+    margin = int(W * MARGIN_FRAC)
+    max_w = int(W * cfg.get("max_width_frac", MAX_WIDTH_FRAC))
 
-    font, lines, line_h = fit_headline(draw, headline, font_path, max_w, box_h, max_lines)
+    font, lines, size = fit_headline(draw, headline, font_path, max_w,
+                                     max_size, cfg.get("max_lines", MAX_LINES), tracking)
+    line_h = int(size * leading)
     block_h = line_h * len(lines)
+    sub_gap, sub_size = int(size * 0.45), max(20, int(size * 0.34))
+    sub_h = (sub_gap + sub_size) if subline else 0
+    bar_h, bar_gap = max(5, int(size * 0.07)), int(size * 0.30)
+    bar_w = int(size * 0.95)
+    top_extra = (bar_gap + bar_h) if accent else 0
 
     if valign == "top":
-        y = margin + int(H * 0.02)
+        y0 = margin
     elif valign == "bottom":
-        y = H - margin - block_h - (90 if subline else 0)
-    else:  # center
-        y = (H - block_h) // 2
+        y0 = H - margin - block_h - sub_h
+    else:
+        y0 = (H - block_h - sub_h - top_extra) // 2 + top_extra
 
-    # Accent bar above the headline (the "designed" agency touch).
     if accent:
-        bar_x = margin if align == "left" else (W - 90) // 2
-        draw.rectangle([bar_x, y - 34, bar_x + 90, y - 22], fill=accent)
+        bx = margin if align == "left" else (W - bar_w) // 2
+        draw.rectangle([bx, y0, bx + bar_w, y0 + bar_h], fill=accent)
+        y0 += bar_h + bar_gap
 
-    for line in lines:
-        lw = draw.textlength(line, font=font)
+    # Optional soft contrast pad behind the text region.
+    if cfg.get("scrim"):
+        pad = int(size * 0.4)
+        sl = luminance(color)
+        veil = (255, 255, 255, 90) if sl < 128 else (0, 0, 0, 90)
+        draw.rectangle([0, max(0, y0 - pad), W, y0 + block_h + sub_h + pad // 2], fill=veil)
+
+    y = y0
+    for ln in lines:
+        lw = line_width(draw, ln, font, tracking)
         x = margin if align == "left" else (W - lw) // 2
-        draw.text((x, y), line, font=font, fill=color)
+        draw_line(draw, (x, y), ln, font, color, tracking)
         y += line_h
 
     if subline:
-        sub_font = ImageFont.truetype(font_path, max(26, line_h // 4))
-        sw = draw.textlength(subline, font=sub_font)
+        sub_font = ImageFont.truetype(font_path, sub_size)
+        sw = line_width(draw, subline, sub_font, 0)
         sx = margin if align == "left" else (W - sw) // 2
-        draw.text((sx, y + 18), subline, font=sub_font, fill=subcolor)
+        draw.text((sx, y - line_h + size + sub_gap), subline, font=sub_font, fill=subcolor)
 
     img.save(final, format="PNG")
-    print(f"  slide {n}: headline composed ({len(lines)} line(s)) -> {final}")
+    print(f"  slide {n}: '{headline[:32]}' @ {size}px, {len(lines)} line(s) -> {final.name}")
+
+
+def luminance(hex_color: str) -> float:
+    h = hex_color.lstrip("#")
+    if len(h) != 6:
+        return 0.0
+    r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+    return 0.299 * r + 0.587 * g + 0.114 * b
 
 
 def main() -> int:
@@ -176,12 +218,11 @@ def main() -> int:
     manifest = json.loads(manifest_path.read_text())
     colors = manifest.get("brand", {}).get("colors", [])
     out_dir = manifest_path.parent / "slides"
-    font_path = find_font()
-    print(f"Composing headlines with {Path(font_path).name}")
+    print(f"Composing headlines (default font {Path(resolve_font(None)).name})")
 
     for slide in manifest.get("slides", []):
         if slide.get("file"):
-            compose_slide(slide, colors, out_dir, font_path)
+            compose_slide(slide, colors, out_dir)
     print("Done. Re-run is idempotent (sources from slides/raw-N.png).")
     return 0
 

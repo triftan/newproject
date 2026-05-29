@@ -27,8 +27,8 @@ brand URL + product
    └────┬───────────────┘                                    manifest.json
         │
    ┌────▼───────────────┐
-   │ compose_text.py    │ → overlays real bold headlines (Archivo Black, Pillow)
-   │ (typography)       │   crisp + correctly spelled  → slides/slide-N.png
+   │ compose_text.py    │ → overlays real bold headlines (Poppins SemiBold, Pillow)
+   │ (typography)       │   size-capped, crisp + correctly spelled → slides/slide-N.png
    └────┬───────────────┘
         │
    ┌────▼───────────────┐
@@ -84,10 +84,10 @@ pipeline and gallery work end-to-end. Real renders need `OPENAI_API_KEY`.
 | `.claude/skills/carousel/SKILL.md` | the `/carousel` workflow Claude follows |
 | `frameworks/carousel-frameworks.md` | proven carousel frameworks + copy/visual rules |
 | `pipeline/openai_render.py` | renders text-free backgrounds via OpenAI Images in parallel |
-| `pipeline/compose_text.py` | overlays real bold headlines (Archivo Black) with Pillow |
+| `pipeline/compose_text.py` | overlays real bold headlines (Poppins SemiBold) with Pillow |
 | `pipeline/build_gallery.py` | builds the HTML gallery from the manifest |
 | `pipeline/png_writer.py` | zero-dep PNG writer used only for `--mock` |
-| `assets/fonts/` | bundled display fonts (Archivo Black, Anton — OFL) |
+| `assets/fonts/` | bundled fonts (Poppins, Archivo Black, Anton — OFL) |
 | `examples/slides.example.json` | reference slides spec |
 | `brands/<slug>/` | per-brand output (brand.json, slides.json, slides/, index.html) |
 

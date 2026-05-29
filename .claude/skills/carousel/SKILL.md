@@ -112,7 +112,8 @@ slides fail, re-run (rendered ones are kept) or pass `--concurrency 2`.
 
 ## Step 5.5 — Composite the headlines (real typography)
 Overlay each slide's headline onto its text-free background with a real bold
-font (Archivo Black), pixel-sharp and correctly spelled:
+font (default Poppins SemiBold; Archivo Black / Anton also bundled), capped in
+size with generous leading — pixel-sharp and correctly spelled:
 ```bash
 python3 pipeline/compose_text.py brands/<slug>/manifest.json
 ```
