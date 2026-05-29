@@ -23,23 +23,41 @@ If either required input is missing, ask for it before proceeding.
 ## Step 1 — Set up the brand folder
 Slugify the brand name. Create `brands/<slug>/`. All artifacts live there.
 
-## Step 2 — Scrape & extract the brand kit
-Use **WebFetch** on the brand URL (and 1–2 key pages like the product or
-about page if helpful). Extract, grounded ONLY in what the site actually says:
-- **Colors**: primary, accent, neutrals as hex. Infer from described
-  styling/CSS/og-images; pick a coherent 3–5 color palette.
-- **Fonts / type feel**: serif vs sans, weight, vibe.
-- **Voice & tone**: formal/playful, sentence length, emoji use, signature
-  phrases.
-- **Positioning**: what they sell, who for, core benefit, differentiators.
-- **Product facts** for the named product: real benefits/claims/wording.
+## Step 2 — Probe & extract the brand kit (REAL colors + fonts)
+First pull hard data from the live CSS, then layer in voice/positioning:
+
+```bash
+python3 pipeline/brand_probe.py https://acme.com
+```
+This prints JSON with `top_brand_colors`, `top_neutrals`, `font_faces_declared`
+(the brand's actual fonts), and `font_families_used`. Use it as ground truth —
+don't guess colors. Then use **WebFetch** on the URL (+ the product page) for
+voice, positioning, and product facts.
+
+Curate from the probe:
+- **Colors**: choose a coherent 3–5 palette from `top_brand_colors` +
+  `top_neutrals`. Order them `[background, accent, text, secondary, extra]`
+  (the gallery and compositor read `colors[0]` as bg, `colors[1]` as accent,
+  `colors[2]` as text).
+- **Font matching**: take the brand's real display font from
+  `font_faces_declared` and fetch the closest open match:
+  ```bash
+  python3 pipeline/get_font.py "<BrandFontName>" --weight 700
+  ```
+  It aliases common proprietary fonts (e.g. Cheltenham→Lora, Calibre→Inter,
+  Gotham→Montserrat) and prints the saved filename. Put that in `font_file`.
+  Match the CATEGORY faithfully: serif brand → serif, geometric sans → Poppins,
+  grotesque → Inter/Space Grotesk.
+- **Voice & tone**, **positioning**, **product facts**: from WebFetch, grounded
+  ONLY in what the site says.
 
 Write `brands/<slug>/brand.json`:
 ```json
 {
   "name": "Acme", "url": "https://acme.com",
-  "colors": ["#0a0a0a", "#ff4d00", "#f5f1e8", "#1f6feb"],
-  "fonts": "Bold geometric sans, tight tracking",
+  "colors": ["#f5f1e9", "#ff4d00", "#1a1a1a", "#6c674d", "#262c4d"],
+  "fonts": "Brand uses <RealFont> (serif/sans...) for headlines",
+  "font_file": "Lora-Bold.ttf",
   "voice": "Direct, confident, no emoji, short punchy sentences",
   "positioning": "Premium sleep drops for busy professionals",
   "product_facts": ["Magnesium + L-theanine", "Drug-free", "20-min onset"]
@@ -132,8 +150,28 @@ Tell the user the folder, how many of 6 slides rendered, any failures, and
 the path to `index.html`. Offer one revision pass (e.g. "tighten slide 3's
 hook" or "warmer palette") — edit `slides.json` and re-run steps 5–6.
 
+## Quality bar (definition of done) — do not skip
+Lock this in so every run matches the reference quality:
+1. **Colors are real** — pulled from `brand_probe.py`, not guessed. `colors[0]`
+   = background base, `colors[1]` = accent, `colors[2]` = text.
+2. **Font is matched** — `font_file` set from `get_font.py` to the brand's real
+   display font (or closest open match). Headlines are composited, never drawn
+   by the image model.
+3. **Backgrounds are text-free** with the top third reserved; products live in
+   the lower two-thirds.
+4. **Typography defaults** (in `compose_text.py`): ~86px cap, 1.12 leading,
+   −1.5px tracking for sans (0 for serif), accent rule bar. One short headline
+   per slide. Dark text on light slides, light text on dark slides.
+5. **Consistency** — all 6 share one palette, one font, one layout system. Vary
+   composition, not identity.
+6. **Correct copy** — headlines in brand voice; no invented claims/prices/stats;
+   CTAs/fine print go in the caption or a short `subline`, not big in the art.
+7. **Render check** — open 2–3 slides and confirm contrast + spelling before
+   reporting done.
+
 ## Notes
 - Re-running for a new brand = new `brands/<slug>/` folder, same workflow.
-- If a slide fails to render, the others still complete; re-run to retry.
-- Keep all 6 prompts visually consistent — same palette, type system, and
-  layout language so they read as one carousel.
+- Retuning typography/colors/font is **free** — re-run `compose_text.py` on the
+  saved `slides/raw-N.png`; only `openai_render.py` costs image credits.
+- If a slide fails to render (e.g. 429), the others still complete; re-run or
+  use `--concurrency 2`.

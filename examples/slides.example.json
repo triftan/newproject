@@ -2,56 +2,102 @@
   "brand": {
     "name": "Drift",
     "url": "https://example-drift.com",
-    "colors": ["#0e1216", "#7c5cff", "#f4f1ea", "#2bd9b4"],
+    "colors": [
+      "#0e1216",
+      "#7c5cff",
+      "#f4f1ea",
+      "#2bd9b4"
+    ],
     "fonts": "Bold geometric sans, tight tracking",
     "voice": "Calm, confident, lowercase, no exclamation marks",
     "positioning": "Drug-free sleep drops for people who can't switch off",
-    "product_facts": ["Magnesium glycinate + L-theanine", "Non-habit forming", "Onset ~20 min"]
+    "product_facts": [
+      "Magnesium glycinate + L-theanine",
+      "Non-habit forming",
+      "Onset ~20 min"
+    ],
+    "font_file": "SpaceGrotesk-SemiBold.ttf"
   },
   "product": "Drift Sleep Drops",
   "framework": "PAS",
-  "image_size": { "width": 1080, "height": 1350 },
+  "image_size": {
+    "width": 1080,
+    "height": 1350
+  },
   "slides": [
     {
       "n": 1,
       "framework": "Hook",
       "headline": "your brain at 1am: a TED talk",
-      "type": { "color": "#f4f1ea", "align": "left", "valign": "top", "accent": "#7c5cff" },
+      "type": {
+        "color": "#f4f1ea",
+        "align": "left",
+        "valign": "top",
+        "accent": "#7c5cff"
+      },
       "prompt": "Instagram carousel slide background, 1080x1350 portrait. Wavy organic color-blocked background flowing between deep midnight navy #0e1216 and soft violet #7c5cff, subtle grain. ABSOLUTELY NO text, words, letters or numbers anywhere. Keep the top third as calm open negative space (reserved for a headline overlay). Minimal, premium, calm. Safe margins. No watermark, no logos, no generic AI gloss."
     },
     {
       "n": 2,
       "framework": "Agitate",
       "headline": "you're tired but wired",
-      "type": { "color": "#f4f1ea", "align": "left", "valign": "top", "accent": "#2bd9b4" },
+      "type": {
+        "color": "#f4f1ea",
+        "align": "left",
+        "valign": "top",
+        "accent": "#2bd9b4"
+      },
       "prompt": "Instagram carousel slide background, 1080x1350 portrait, same identity as set: wavy color-blocked midnight-navy-to-violet background, a faint clock graphic motif in violet, lots of negative space. ABSOLUTELY NO text anywhere. Keep the top third open for a headline. Consistent palette #0e1216 #7c5cff #f4f1ea #2bd9b4. Safe margins. No watermark, no AI gloss."
     },
     {
       "n": 3,
       "framework": "Stakes",
       "headline": "every bad night taxes tomorrow",
-      "type": { "color": "#f4f1ea", "align": "left", "valign": "top", "accent": "#2bd9b4" },
+      "type": {
+        "color": "#f4f1ea",
+        "align": "left",
+        "valign": "top",
+        "accent": "#2bd9b4"
+      },
       "prompt": "Instagram carousel slide background, 1080x1350 portrait, matching set identity: wavy color-blocked navy/violet background, a thin downward graph line accent in teal #2bd9b4. ABSOLUTELY NO text anywhere. Keep the top third open for a headline. Palette #0e1216 #7c5cff #f4f1ea #2bd9b4. Calm premium look, safe margins, no watermark."
     },
     {
       "n": 4,
       "framework": "Solution",
       "headline": "meet drift sleep drops",
-      "type": { "color": "#f4f1ea", "align": "left", "valign": "top", "accent": "#7c5cff" },
+      "type": {
+        "color": "#f4f1ea",
+        "align": "left",
+        "valign": "top",
+        "accent": "#7c5cff"
+      },
       "prompt": "Instagram carousel slide background, 1080x1350 portrait, matching set: wavy navy-to-violet color-blocked background. ABSOLUTELY NO text anywhere. Keep the top third open for a headline. In the lower two-thirds, a sleek amber dropper bottle product hero centered with soft studio lighting and gentle reflection. Palette #0e1216 #7c5cff #f4f1ea #2bd9b4. Premium, clean, safe margins, no watermark, no generic AI gloss."
     },
     {
       "n": 5,
       "framework": "Proof",
       "headline": "magnesium + l-theanine, onset ~20 min",
-      "type": { "color": "#f4f1ea", "align": "left", "valign": "top", "accent": "#2bd9b4", "max_lines": 3 },
+      "type": {
+        "color": "#f4f1ea",
+        "align": "left",
+        "valign": "top",
+        "accent": "#2bd9b4",
+        "max_lines": 3
+      },
       "prompt": "Instagram carousel slide background, 1080x1350 portrait, matching set identity: wavy color-blocked navy/violet background, two simple teal #2bd9b4 ingredient icon motifs, the dropper bottle smaller in lower third. ABSOLUTELY NO text anywhere. Keep the top third open for a headline. Palette #0e1216 #7c5cff #f4f1ea #2bd9b4. Safe margins, no watermark."
     },
     {
       "n": 6,
       "framework": "CTA",
       "headline": "sleep like it's your job",
-      "type": { "color": "#f4f1ea", "align": "left", "valign": "top", "accent": "#7c5cff", "subline": "link in bio", "subcolor": "#2bd9b4" },
+      "type": {
+        "color": "#f4f1ea",
+        "align": "left",
+        "valign": "top",
+        "accent": "#7c5cff",
+        "subline": "link in bio",
+        "subcolor": "#2bd9b4"
+      },
       "prompt": "Instagram carousel slide background, 1080x1350 portrait, matching set: wavy navy-to-violet color-blocked background. ABSOLUTELY NO text anywhere. Keep the top third open for a headline. In the lower two-thirds, the amber dropper bottle hero with a soft glow. Palette #0e1216 #7c5cff #f4f1ea #2bd9b4. Premium, high contrast, safe margins, no watermark, no AI gloss."
     }
   ]

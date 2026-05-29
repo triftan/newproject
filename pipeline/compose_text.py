@@ -115,7 +115,7 @@ def fit_headline(draw, text, font_path, max_w, max_size, max_lines, tracking):
     return font, wrap(draw, text, font, max_w, tracking), MIN_SIZE
 
 
-def compose_slide(slide, brand_colors, out_dir, W_hint=1080):
+def compose_slide(slide, brand_colors, out_dir, brand_font=None, W_hint=1080):
     n = slide["n"]
     headline = slide.get("headline", "")
     cfg = slide.get("type", {}) or {}
@@ -138,7 +138,7 @@ def compose_slide(slide, brand_colors, out_dir, W_hint=1080):
     dark = brand_colors[2] if len(brand_colors) > 2 else "#1a1a1a"
     accent_default = brand_colors[1] if len(brand_colors) > 1 else "#ff4d00"
 
-    font_path = resolve_font(cfg.get("font"))
+    font_path = resolve_font(cfg.get("font") or brand_font)
     color = cfg.get("color") or dark
     accent = cfg.get("accent", accent_default)
     align = cfg.get("align", "left")
@@ -216,13 +216,16 @@ def main() -> int:
         print(f"error: manifest not found: {manifest_path}")
         return 1
     manifest = json.loads(manifest_path.read_text())
-    colors = manifest.get("brand", {}).get("colors", [])
+    brand = manifest.get("brand", {})
+    colors = brand.get("colors", [])
+    brand_font = brand.get("font_file")
     out_dir = manifest_path.parent / "slides"
-    print(f"Composing headlines (default font {Path(resolve_font(None)).name})")
+    default_name = Path(resolve_font(brand_font)).name
+    print(f"Composing headlines (font: {default_name})")
 
     for slide in manifest.get("slides", []):
         if slide.get("file"):
-            compose_slide(slide, colors, out_dir)
+            compose_slide(slide, colors, out_dir, brand_font=brand_font)
     print("Done. Re-run is idempotent (sources from slides/raw-N.png).")
     return 0
 

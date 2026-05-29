@@ -13,7 +13,10 @@ in generated images).
 
 Full license text: https://openfontlicense.org
 
-Pick a font per slide via the `type.font` field in `slides.json`, or change the
-default order in `DEFAULT_FONTS` in `pipeline/compose_text.py`. Use **static**
-weight files (like these) — variable fonts render at their default Regular
-instance under Pillow, so they won't look bold.
+More fonts land here on demand: `pipeline/get_font.py "<family>" --weight 700`
+fetches a Google Font and instances it to a static weight (it aliases common
+proprietary brand fonts — e.g. Cheltenham→Lora, Calibre→Inter, Gotham→Montserrat).
+
+Set the typeface brand-wide via `font_file` in `brand.json`/`slides.json`, or per
+slide via `type.font`. Use **static** weight files (these are) — variable fonts
+render at their default Regular instance under Pillow, so they won't look bold.

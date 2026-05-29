@@ -15,10 +15,11 @@ brand URL + product
         │
    ┌────▼─────────────────────────────────────────────┐
    │ Claude (the /carousel skill)                      │
-   │  1. WebFetch the site                             │
-   │  2. extract colors / fonts / voice / positioning  │  → brand.json
-   │  3. pick a framework, write 6 slide concepts      │
-   │  4. author a detailed image prompt per slide      │  → slides.json
+   │  1. brand_probe.py → REAL colors + fonts from CSS │
+   │  2. get_font.py → fetch the brand's matched font  │  → brand.json
+   │  3. WebFetch → voice / positioning / product facts│
+   │  4. pick a framework, write 6 slide concepts      │
+   │  5. author a TEXT-FREE image prompt per slide     │  → slides.json
    └────┬──────────────────────────────────────────────┘
         │
    ┌────▼───────────────┐     ┌──────────────────────────┐
@@ -47,7 +48,12 @@ Claude runs the whole flow and hands back `brands/<slug>/index.html`.
 ## Manual / CLI use
 
 ```bash
+# 0. Probe the brand for real colors + fonts, and fetch the matched font
+python3 pipeline/brand_probe.py https://brand.com
+python3 pipeline/get_font.py "BrandFontName" --weight 700   # -> assets/fonts/...
+
 # 1. Author brands/<slug>/slides.json  (see examples/slides.example.json)
+#    Put the palette in brand.colors and the font in brand.font_file
 
 # 2. Render text-free backgrounds in parallel via OpenAI Images
 export OPENAI_API_KEY=...     # https://platform.openai.com/api-keys
@@ -83,6 +89,8 @@ pipeline and gallery work end-to-end. Real renders need `OPENAI_API_KEY`.
 |------|------|
 | `.claude/skills/carousel/SKILL.md` | the `/carousel` workflow Claude follows |
 | `frameworks/carousel-frameworks.md` | proven carousel frameworks + copy/visual rules |
+| `pipeline/brand_probe.py` | extracts real colors + fonts from the site's CSS |
+| `pipeline/get_font.py` | fetches the brand's matched font (variable→static) |
 | `pipeline/openai_render.py` | renders text-free backgrounds via OpenAI Images in parallel |
 | `pipeline/compose_text.py` | overlays real bold headlines (Poppins SemiBold) with Pillow |
 | `pipeline/build_gallery.py` | builds the HTML gallery from the manifest |

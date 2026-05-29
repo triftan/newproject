@@ -1,4 +1,6 @@
-# Pillow is required: it powers the exact 1080x1350 center-crop in
-# openai_render.py and the headline compositing in compose_text.py.
+# Pillow: exact 1080x1350 crop (openai_render.py) + headline compositing
+# (compose_text.py).
+# fontTools: instances variable Google Fonts to a static weight in get_font.py.
 # Everything else uses the Python standard library (urllib, base64).
 Pillow>=10.0
+fonttools>=4.40
