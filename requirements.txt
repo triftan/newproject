@@ -1,4 +1,4 @@
-# The pipeline runs on the Python standard library alone (urllib, base64).
-# Pillow is OPTIONAL: install it to center-crop OpenAI renders to an exact
-# 1080x1350 IG 4:5 frame. Without it, slides keep gpt-image-1's native size.
+# Pillow is required: it powers the exact 1080x1350 center-crop in
+# openai_render.py and the headline compositing in compose_text.py.
+# Everything else uses the Python standard library (urllib, base64).
 Pillow>=10.0

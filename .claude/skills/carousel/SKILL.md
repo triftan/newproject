@@ -52,14 +52,26 @@ Read `frameworks/carousel-frameworks.md`. Choose ONE framework that best fits
 the product and positioning. Map 6 slides onto its beats: slide 1 hook,
 slides 2–5 body, slide 6 CTA. Write headlines in the extracted brand voice.
 
-## Step 4 — Write a detailed image prompt per slide
-For each slide author a rich, self-contained image prompt that bakes in:
-- the exact slide **headline text** to render in the image (in quotes),
+## Step 4 — Write a TEXT-FREE background prompt per slide
+The image model is unreliable at rendering text, so we do NOT ask it to draw
+the headline. Instead each prompt produces a **text-free background** and the
+headline is composited later with a real font (Step 5.5). For each slide author
+a rich, self-contained prompt that bakes in:
 - the **extracted hex palette** and a wavy/organic color-blocked background,
-- bold typographic treatment, legible at thumbnail size, type in top/center,
-- product hero where relevant, clean lighting,
+- **ABSOLUTELY NO text/words/letters/numbers** anywhere in the image,
+- a reserved clean **open negative-space area** (usually the top third) where
+  the headline will be overlaid,
+- product hero where relevant, clean lighting, in the remaining space,
 - a consistent layout/identity across all 6 (vary composition, not identity),
 - 1080×1350, safe margins, no watermarks, no generic AI gloss.
+
+Also give each slide a **`type`** block telling the compositor how to set the
+headline (all fields optional; brand-derived defaults fill the rest):
+- `color` (headline hex — dark on light slides, cream on dark slides),
+- `align` (`left`|`center`), `valign` (`top`|`center`|`bottom`),
+- `accent` (hex of the small rule bar above the headline; null to hide),
+- `subline` + `subcolor` (optional small line, e.g. a CTA),
+- `max_lines`, `max_width_frac`.
 
 See `examples/slides.example.json` for the exact shape. Write
 `brands/<slug>/slides.json`:
@@ -71,7 +83,8 @@ See `examples/slides.example.json` for the exact shape. Write
   "image_size": {"width": 1080, "height": 1350},
   "slides": [
     {"n": 1, "framework": "Hook", "headline": "Still can't switch off at night?",
-     "prompt": "<full image prompt baking in the headline + palette + style>"},
+     "type": {"color": "#0a0a0a", "align": "left", "valign": "top", "accent": "#ff4d00"},
+     "prompt": "<TEXT-FREE background prompt: palette + waves + product, top third left clean>"},
     ... 6 total ...
   ]
 }
@@ -93,6 +106,19 @@ python3 pipeline/openai_render.py brands/<slug>/slides.json
   `python3 pipeline/openai_render.py brands/<slug>/slides.json --mock`
 
 This writes `brands/<slug>/slides/slide-N.png` and `brands/<slug>/manifest.json`.
+
+Rate limits: low-tier OpenAI projects may 429 on 6 concurrent requests. If some
+slides fail, re-run (rendered ones are kept) or pass `--concurrency 2`.
+
+## Step 5.5 — Composite the headlines (real typography)
+Overlay each slide's headline onto its text-free background with a real bold
+font (Archivo Black), pixel-sharp and correctly spelled:
+```bash
+python3 pipeline/compose_text.py brands/<slug>/manifest.json
+```
+This preserves each raw render as `slides/raw-N.png` (so it's idempotent) and
+writes the final `slides/slide-N.png`. Requires Pillow and the fonts in
+`assets/fonts/`.
 
 ## Step 6 — Build the gallery
 ```bash

@@ -22,8 +22,13 @@ brand URL + product
    └────┬──────────────────────────────────────────────┘
         │
    ┌────▼───────────────┐     ┌──────────────────────────┐
-   │ openai_render.py   │ ──► │ OpenAI Images (parallel) │ → slides/slide-N.png
-   │ (6 jobs at once)   │     └──────────────────────────┘   manifest.json
+   │ openai_render.py   │ ──► │ OpenAI Images (parallel) │ → text-free backgrounds
+   │ (6 jobs at once)   │     └──────────────────────────┘   slides/slide-N.png
+   └────┬───────────────┘                                    manifest.json
+        │
+   ┌────▼───────────────┐
+   │ compose_text.py    │ → overlays real bold headlines (Archivo Black, Pillow)
+   │ (typography)       │   crisp + correctly spelled  → slides/slide-N.png
    └────┬───────────────┘
         │
    ┌────▼───────────────┐
@@ -44,14 +49,18 @@ Claude runs the whole flow and hands back `brands/<slug>/index.html`.
 ```bash
 # 1. Author brands/<slug>/slides.json  (see examples/slides.example.json)
 
-# 2. Render all slides in parallel via OpenAI Images
+# 2. Render text-free backgrounds in parallel via OpenAI Images
 export OPENAI_API_KEY=...     # https://platform.openai.com/api-keys
 python3 pipeline/openai_render.py brands/<slug>/slides.json
 #   --quality high       sharper slides (slower / costlier)
 #   --size 1024x1536     gpt-image-1 sizes: 1024x1024 | 1024x1536 | 1536x1024
+#   --concurrency 2      lower if a low-tier key 429s on 6 parallel jobs
 #   --mock               no key: write placeholder PNGs to test the flow
 
-# 3. Build the gallery
+# 3. Composite real bold headlines onto the backgrounds
+python3 pipeline/compose_text.py brands/<slug>/manifest.json
+
+# 4. Build the gallery
 python3 pipeline/build_gallery.py brands/<slug>/manifest.json --open
 ```
 
@@ -60,6 +69,7 @@ python3 pipeline/build_gallery.py brands/<slug>/manifest.json --open
 ```bash
 mkdir -p brands/drift && cp examples/slides.example.json brands/drift/slides.json
 python3 pipeline/openai_render.py brands/drift/slides.json --mock
+python3 pipeline/compose_text.py brands/drift/manifest.json
 python3 pipeline/build_gallery.py brands/drift/manifest.json
 open brands/drift/index.html   # or xdg-open / just open the file
 ```
@@ -73,9 +83,11 @@ pipeline and gallery work end-to-end. Real renders need `OPENAI_API_KEY`.
 |------|------|
 | `.claude/skills/carousel/SKILL.md` | the `/carousel` workflow Claude follows |
 | `frameworks/carousel-frameworks.md` | proven carousel frameworks + copy/visual rules |
-| `pipeline/openai_render.py` | renders prompts via OpenAI Images in parallel |
+| `pipeline/openai_render.py` | renders text-free backgrounds via OpenAI Images in parallel |
+| `pipeline/compose_text.py` | overlays real bold headlines (Archivo Black) with Pillow |
 | `pipeline/build_gallery.py` | builds the HTML gallery from the manifest |
 | `pipeline/png_writer.py` | zero-dep PNG writer used only for `--mock` |
+| `assets/fonts/` | bundled display fonts (Archivo Black, Anton — OFL) |
 | `examples/slides.example.json` | reference slides spec |
 | `brands/<slug>/` | per-brand output (brand.json, slides.json, slides/, index.html) |
 
@@ -87,6 +99,15 @@ pipeline and gallery work end-to-end. Real renders need `OPENAI_API_KEY`.
 | `CAROUSEL_OPENAI_MODEL` | override the image model (default `gpt-image-1`) |
 | `CAROUSEL_OPENAI_SIZE` | override the render size (default `1024x1536`) |
 
-Requires Python 3.10+ (standard library only). Optional: install `Pillow` to
-center-crop renders to exactly 1080×1350; without it, slides stay at the native
-gpt-image-1 size and the gallery displays them at 4:5.
+Requires Python 3.10+ and **Pillow** (`pip install -r requirements.txt`). Pillow
+powers both the exact 1080×1350 crop and the headline compositing in
+`compose_text.py`.
+
+### Why typography is composited, not generated
+
+Image models (incl. `gpt-image-1`) render text unreliably — wrong weights,
+mangled spelling ("Shop now" → "Shopmow"). So backgrounds are generated
+text-free and headlines are drawn afterward with a real font. The result is
+crisp, correctly spelled, genuinely bold type. When `gpt-image-2` ("ChatGPT
+Images 2.0", ~99% text accuracy) reaches your account you can let the model draw
+text directly — but compositing stays the most reliable, controllable path.
