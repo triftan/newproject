@@ -1,0 +1,16 @@
+# Generated carousel output (keep the folder, ignore artifacts)
+brands/*/
+!brands/.gitkeep
+
+# Env / secrets
+.env
+*.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
