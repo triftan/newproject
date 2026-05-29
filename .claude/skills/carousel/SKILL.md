@@ -1,6 +1,6 @@
 ---
 name: carousel
-description: Generate a branded 6-slide Instagram carousel from a brand URL + product name. Scrapes the site for brand colors/fonts/voice, writes 6 slide concepts across proven carousel frameworks, renders 1080x1350 slides via FAL in parallel, and builds an HTML gallery. Use when the user wants on-brand IG/social carousel slides, asks to "make a carousel", or gives a brand URL and a product to promote.
+description: Generate a branded 6-slide Instagram carousel from a brand URL + product name. Scrapes the site for brand colors/fonts/voice, writes 6 slide concepts across proven carousel frameworks, renders 1080x1350 slides via the OpenAI Images API in parallel, and builds an HTML gallery. Use when the user wants on-brand IG/social carousel slides, asks to "make a carousel", or gives a brand URL and a product to promote.
 ---
 
 # Branded IG Carousel Generator
@@ -10,8 +10,8 @@ Turn **one brand URL + one product name** into **6 finished, on-brand
 designer loop.
 
 You (Claude) do the scraping, brand analysis, concept writing, and prompt
-authoring directly. A Python pipeline handles parallel image rendering (FAL)
-and the gallery. Follow these steps in order.
+authoring directly. A Python pipeline handles parallel image rendering (OpenAI
+Images API) and the gallery. Follow these steps in order.
 
 ## Inputs to collect
 - **Brand URL** (e.g. `https://acme.com`)
@@ -77,16 +77,20 @@ See `examples/slides.example.json` for the exact shape. Write
 }
 ```
 
-## Step 5 — Render all slides in parallel (FAL)
-The pipeline fires every slide to FAL concurrently and downloads the PNGs.
+## Step 5 — Render all slides in parallel (OpenAI Images)
+The pipeline sends every slide to the OpenAI Images API concurrently and writes
+the PNGs.
 
 ```bash
-python3 pipeline/fal_render.py brands/<slug>/slides.json
+python3 pipeline/openai_render.py brands/<slug>/slides.json
 ```
-- Requires `FAL_KEY` in the environment (https://fal.ai/dashboard/keys).
-- Override the model with `--model <fal-model-id>` or `CAROUSEL_FAL_MODEL`.
+- Requires `OPENAI_API_KEY` in the environment (https://platform.openai.com/api-keys).
+- Model defaults to `gpt-image-1` (override with `--model` or `CAROUSEL_OPENAI_MODEL`).
+- `gpt-image-1` only emits 1024x1024 / 1024x1536 / 1536x1024. The script picks
+  the nearest portrait size (1024x1536) and, if Pillow is installed,
+  center-crops to exactly 1080x1350. Use `--quality high` for sharper slides.
 - No key yet? Run `--mock` to produce placeholder slides and verify the flow:
-  `python3 pipeline/fal_render.py brands/<slug>/slides.json --mock`
+  `python3 pipeline/openai_render.py brands/<slug>/slides.json --mock`
 
 This writes `brands/<slug>/slides/slide-N.png` and `brands/<slug>/manifest.json`.
 

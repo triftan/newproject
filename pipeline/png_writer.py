@@ -1,6 +1,6 @@
 """Tiny zero-dependency PNG writer used only for --mock placeholder slides.
 
-Real renders come back from FAL as finished PNGs; this exists so the full
+Real renders come back from the OpenAI Images API as PNGs; this exists so the full
 pipeline (render -> manifest -> gallery) can be exercised offline without an
 API key or Pillow. It writes a single solid-color image.
 """
