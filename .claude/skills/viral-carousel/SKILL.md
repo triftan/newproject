@@ -26,8 +26,12 @@ Pillow compositor) — no Higgsfield, no extra services. The difference is the
 - **Optional `image-refs/` folder** — 8–15 images in the exact visual style you
   want (Pinterest/IG/camera roll). You (Claude) can **Read these images** to
   learn the lighting, grade, camera feel, props, and locations, then write
-  prompts that match. They are NOT posted and NOT sent to the image API — they
-  teach *you* the look so your prompts inherit it.
+  prompts that match. By default they are NOT posted and only teach *you* the
+  look so your prompts inherit it. **Optionally** you can also hand them to the
+  image model itself (see Step 6, `--refs`): the renderer will generate each
+  slide through the OpenAI `images/edits` endpoint with the refs attached, so
+  the render inherits their look directly — useful when prompt-matching alone
+  drifts off the aesthetic.
 - Optional: preferred format, slide count (default 8), platform (IG vs TikTok).
 
 If there's no topic and no brand URL, ask for one before proceeding.
@@ -124,6 +128,21 @@ python3 pipeline/openai_render.py brands/<slug>/slides.json
   nearest portrait and center-crops to the exact target with Pillow.
 - Low-tier keys may 429 on 8 concurrent jobs — re-run (kept renders are skipped)
   or pass `--concurrency 2`.
+
+**Optional — guide renders with reference images.** If you want the *image
+model* (not just your prompts) to inherit the look from `image-refs/`, pass them
+through:
+```bash
+python3 pipeline/openai_render.py brands/<slug>/slides.json --refs brands/<slug>/image-refs
+```
+Slides with references render through the `images/edits` endpoint (gpt-image-1
+accepts reference images), so lighting/grade/camera feel carry over directly.
+Finer control without a flag: set `reference_images` (a list of file or folder
+paths, relative to the spec) at the spec level for all slides, or on an
+individual slide to override. `--max-refs` caps how many are sent per slide
+(default 4). With no refs anywhere, rendering is unchanged (text-only
+`images/generations`). Backgrounds must still stay **text-free** — choose
+text-free reference photos too.
 
 Writes `brands/<slug>/slides/slide-N.png` + `manifest.json`.
 
