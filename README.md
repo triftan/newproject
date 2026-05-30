@@ -1,7 +1,18 @@
-# Branded IG Carousel Generator
+# IG Carousel Generator
 
 One brand URL + one product name → **6 finished, on-brand 1080×1350 Instagram
 carousel slides** and an HTML gallery. No Canva, no designer back-and-forth.
+
+### Two skills, one engine
+
+| Skill | Use it for | Look |
+|-------|-----------|------|
+| **`/carousel`** | branded / e-commerce product carousels | brand palette, graphic color-blocked backgrounds, matched brand fonts, product hero |
+| **`/viral-carousel`** | organic-growth faceless carousels (IG/TikTok) | candid iPhone "found, not made" photos, faceless people, plain white overlay, 8 slides + proven viral formats |
+
+Both share the same Python pipeline (OpenAI Images + Pillow compositor) — they
+differ in framework and aesthetic, not engine. Pick by goal: sell a product →
+`/carousel`; grow an account → `/viral-carousel`.
 
 Built to run **inside Claude Code**: Claude does the scraping, brand analysis,
 concept writing, and image-prompt authoring; a small Python pipeline renders all
@@ -87,8 +98,10 @@ pipeline and gallery work end-to-end. Real renders need `OPENAI_API_KEY`.
 
 | Path | What |
 |------|------|
-| `.claude/skills/carousel/SKILL.md` | the `/carousel` workflow Claude follows |
-| `frameworks/carousel-frameworks.md` | proven carousel frameworks + copy/visual rules |
+| `.claude/skills/carousel/SKILL.md` | the `/carousel` workflow (branded product) |
+| `.claude/skills/viral-carousel/SKILL.md` | the `/viral-carousel` workflow (organic faceless) |
+| `frameworks/carousel-frameworks.md` | branded carousel frameworks + copy/visual rules |
+| `frameworks/viral-carousel-frameworks.md` | viral faceless formats + "found, not made" rules |
 | `pipeline/brand_probe.py` | extracts real colors + fonts from the site's CSS |
 | `pipeline/get_font.py` | fetches the brand's matched font (variable→static) |
 | `pipeline/openai_render.py` | renders text-free backgrounds via OpenAI Images in parallel |
@@ -96,7 +109,8 @@ pipeline and gallery work end-to-end. Real renders need `OPENAI_API_KEY`.
 | `pipeline/build_gallery.py` | builds the HTML gallery from the manifest |
 | `pipeline/png_writer.py` | zero-dep PNG writer used only for `--mock` |
 | `assets/fonts/` | bundled fonts (Poppins, Archivo Black, Anton — OFL) |
-| `examples/slides.example.json` | reference slides spec |
+| `examples/slides.example.json` | reference branded slides spec |
+| `examples/viral.example.json` | reference viral faceless slides spec |
 | `brands/<slug>/` | per-brand output (brand.json, slides.json, slides/, index.html) |
 
 ## Configuration

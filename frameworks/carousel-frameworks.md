@@ -7,9 +7,15 @@ Pick ONE framework per carousel and map the 6 slides onto its beats. Don't mix.
 - **Slide 1 — Hook.** Stops the scroll. A bold claim, a sharp question, a
   pattern interrupt, or a number. No logo dump, no "swipe →" begging. The
   headline does the work.
-- **Slides 2–5 — Body.** Deliver on the hook. One idea per slide. Short.
+- **Slide 2 — Standalone alternate hook.** Instagram re-serves carousels to
+  people who scrolled past slide 1 — but the second time it leads with *slide
+  2*. So slide 2 must work as its own entry point, NOT a continuation of slide
+  1: a different angle on the same promise. If slide 2 only makes sense after
+  slide 1, that second-chance distribution is wasted.
+- **Slides 3–5 — Body.** Deliver on the hook. One idea per slide. Short.
 - **Slide 6 — CTA / payoff.** Resolve the tension and tell them exactly what to
-  do next (shop, save, follow, comment). Reinforce the brand.
+  do next. Reinforce the brand. See the CTA menu below — "follow for more" is
+  dead; lead with a save trigger or a shop action.
 
 ## Framework A — Problem / Agitate / Solution (PAS)
 1. Hook: name the painful problem the product solves.
@@ -45,11 +51,28 @@ Pick ONE framework per carousel and map the 6 slides onto its beats. Don't mix.
 6. CTA.
 
 ## Copy rules
-- Headlines ≤ 8 words where possible. Verbs over adjectives.
+- Headlines ≤ 8 words where possible (aim for ≤ 60 characters so it stays big
+  and legible on mobile). One idea per slide. Verbs over adjectives.
+- Write like a real person who found something useful, not a brand manager.
+  Short fragments, specifics, and numbers beat polished ad-speak.
 - Match the brand voice you extracted (formal vs playful, emoji or not).
 - Use the brand's own product/benefit language pulled from the live site.
+- **Banned words** (read as ad-copy, kill them): unlock, transform, discover,
+  game-changing, must-have, level up, life-changing, revolutionary, ultimate,
+  secret, hack, masterclass. Find a plainer, more specific phrasing instead.
 - Never invent claims, prices, stats, or testimonials. If it's not on the site
   or supplied by the user, don't assert it.
+
+## CTA menu (slide 6)
+Pick the one that fits the goal — never "follow for more":
+- **Shop action** — "Shop the [product] — link in bio." Best for warm,
+  bottom-funnel product carousels.
+- **Save trigger** — "Save this for your next [moment]." Highest saves; saves
+  are the signal the algorithm rewards most.
+- **Comment-keyword funnel** — "Comment [WORD] and I'll DM you [thing]." Drives
+  comments + opens a DM path. Strongest for reach on cold audiences.
+Keep it to ONE clear action. Put it in a short `subline` or the caption, not big
+in the art.
 
 ## Visual rules
 

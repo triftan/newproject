@@ -1,0 +1,63 @@
+{
+  "brand": {
+    "name": "Slow Mornings",
+    "colors": ["#1c1a17", "#c9a27a", "#ffffff"],
+    "font_file": "Inter-SemiBold.ttf",
+    "voice": "Real, plain, first-person. No hype.",
+    "positioning": "Calm, focused mornings without the 5am-grind cliche"
+  },
+  "product": "Focus Drops",
+  "framework": "Green flags",
+  "platform": "instagram",
+  "image_size": { "width": 1080, "height": 1350 },
+  "slides": [
+    {
+      "n": 1,
+      "headline": "green flags in a morning routine",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true },
+      "prompt": "Candid iPhone-style photo, 1080x1350 portrait. Soft natural window light falling across a rumpled linen bed and a mug of coffee on a wooden nightstand, warm muted film grade, slightly imperfect framing. No people. ABSOLUTELY NO text, words, letters or numbers. Keep the bottom third calm and uncluttered for an overlay. Real room, ordinary objects, no studio lighting, no magazine polish. No watermark, no logos, no AI gloss."
+    },
+    {
+      "n": 2,
+      "headline": "no phone for the first hour",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true },
+      "prompt": "Candid iPhone-style photo, same warm muted film grade and natural window light as the set. A phone face-down on a wooden table next to an open paperback and a glass of water, hands-only just out of frame. No face. ABSOLUTELY NO text anywhere. Keep the bottom third clear for an overlay. Ordinary real-life texture, no studio light, no polish. No watermark, no logos."
+    },
+    {
+      "n": 3,
+      "headline": "sunlight before screens",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true },
+      "prompt": "Candid iPhone-style photo, matching warm muted film grade. Back-of-head silhouette of a person standing at a window in soft morning sun, seen from behind, cropped from the chest up, faceless. Houseplants on the sill. ABSOLUTELY NO text anywhere. Keep the bottom third clear for an overlay. Natural light only, slightly grainy, real apartment. No watermark, no logos, no AI gloss."
+    },
+    {
+      "n": 4,
+      "headline": "one slow coffee, sat down",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true },
+      "prompt": "Candid iPhone-style photo, same set aesthetic. Top-down POV of hands wrapped around a ceramic coffee cup on a wooden table, soft natural light, a little steam, muted warm grade. Hands only, no face. ABSOLUTELY NO text anywhere. Bottom third kept clear for an overlay. Imperfect, real, no studio lighting. No watermark, no logos."
+    },
+    {
+      "n": 5,
+      "headline": "a 10am focus ritual, not a 5am grind",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true },
+      "prompt": "Candid iPhone-style photo, matching warm muted grade and window light. A small dropper bottle of focus drops sitting naturally beside a notebook and coffee on a sunlit desk, as a casual mid-morning step — not a product hero, just part of the scene. Hands reaching in, faceless. ABSOLUTELY NO text anywhere. Bottom third clear for an overlay. Real desk, ordinary clutter, no studio polish. No watermark, no logos."
+    },
+    {
+      "n": 6,
+      "headline": "movement before the to-do list",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true },
+      "prompt": "Candid iPhone-style photo, same film grade. A yoga mat unrolled on a wooden floor in soft window light, bare feet and lower legs only stepping onto it, faceless. Muted warm tones, slightly grainy. ABSOLUTELY NO text anywhere. Keep the bottom third clear for an overlay. Real home, natural light, no studio look. No watermark, no logos."
+    },
+    {
+      "n": 7,
+      "headline": "plan three things, not thirty",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true },
+      "prompt": "Candid iPhone-style photo, matching set aesthetic. Top-down POV of an open notebook with a pen and a short handwritten-looking list (illegible scribbles, not real words) beside coffee on a wooden table, soft natural light, warm muted grade. Hands only. ABSOLUTELY NO readable text, words, letters or numbers anywhere. Bottom third clear for an overlay. Ordinary, imperfect, real. No watermark, no logos."
+    },
+    {
+      "n": 8,
+      "headline": "save this for tomorrow morning",
+      "type": { "color": "#ffffff", "align": "center", "valign": "bottom", "accent": null, "shadow": true, "subline": "send to someone who needs a slower start", "subcolor": "#c9a27a" },
+      "prompt": "Candid iPhone-style photo, same warm muted film grade and natural window light. A calm wide shot of a tidy sunlit corner — coffee, book, plant, soft shadows — quiet and inviting, no people. ABSOLUTELY NO text anywhere. Keep the bottom third clear for an overlay. Real room, natural light, slightly grainy, no studio polish, no AI gloss. No watermark, no logos."
+    }
+  ]
+}

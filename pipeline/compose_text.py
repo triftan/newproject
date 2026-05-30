@@ -25,6 +25,7 @@ slides.json (carried through into manifest.json). All fields optional:
       "leading": 1.12,                   # line-height multiple
       "accent": "#C56B4E",               # rule bar above headline (null hides)
       "scrim": false,                    # soft contrast pad behind text
+      "shadow": false,                   # soft drop shadow (legibility over photos)
       "subline": "Link in bio",          # optional small line under headline
       "subcolor": "#2B2B2B"
     }
@@ -181,18 +182,31 @@ def compose_slide(slide, brand_colors, out_dir, brand_font=None, W_hint=1080):
         veil = (255, 255, 255, 90) if sl < 128 else (0, 0, 0, 90)
         draw.rectangle([0, max(0, y0 - pad), W, y0 + block_h + sub_h + pad // 2], fill=veil)
 
-    y = y0
-    for ln in lines:
-        lw = line_width(draw, ln, font, tracking)
-        x = margin if align == "left" else (W - lw) // 2
-        draw_line(draw, (x, y), ln, font, color, tracking)
-        y += line_h
+    sub_font = ImageFont.truetype(font_path, sub_size) if subline else None
 
-    if subline:
-        sub_font = ImageFont.truetype(font_path, sub_size)
-        sw = line_width(draw, subline, sub_font, 0)
-        sx = margin if align == "left" else (W - sw) // 2
-        draw.text((sx, y - line_h + size + sub_gap), subline, font=sub_font, fill=subcolor)
+    def render_pass(dx, dy, head_fill, sub_fill):
+        y = y0
+        for ln in lines:
+            lw = line_width(draw, ln, font, tracking)
+            x = margin if align == "left" else (W - lw) // 2
+            draw_line(draw, (x + dx, y + dy), ln, font, head_fill, tracking)
+            y += line_h
+        if subline:
+            sw = line_width(draw, subline, sub_font, 0)
+            sx = margin if align == "left" else (W - sw) // 2
+            draw.text((sx + dx, y - line_h + size + sub_gap + dy), subline,
+                      font=sub_font, fill=sub_fill)
+
+    # Soft drop shadow: a few translucent dark passes offset around the text.
+    # Cleaner than a scrim box over candid photos — lifts white type, no boxes.
+    if cfg.get("shadow"):
+        r = max(2, int(size * 0.05))
+        shade = (0, 0, 0, 60)
+        for dx, dy in [(-r, 0), (r, 0), (0, -r), (0, r),
+                       (-r, -r), (r, r), (-r, r), (r, -r)]:
+            render_pass(dx, dy, shade, shade)
+
+    render_pass(0, 0, color, subcolor)
 
     img.save(final, format="PNG")
     print(f"  slide {n}: '{headline[:32]}' @ {size}px, {len(lines)} line(s) -> {final.name}")

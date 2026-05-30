@@ -70,6 +70,17 @@ Read `frameworks/carousel-frameworks.md`. Choose ONE framework that best fits
 the product and positioning. Map 6 slides onto its beats: slide 1 hook,
 slides 2–5 body, slide 6 CTA. Write headlines in the extracted brand voice.
 
+Three rules that lift quality (from the framework doc — apply them):
+- **Slide 2 is a standalone alternate hook**, not a continuation. Instagram
+  re-serves carousels starting from slide 2, so it must work as its own entry
+  point: a different angle on the same promise.
+- **Banned words** — never use: unlock, transform, discover, game-changing,
+  must-have, level up, life-changing, revolutionary, ultimate, secret, hack,
+  masterclass. Use plainer, more specific phrasing.
+- **One idea per slide**, ≤ 60 characters where possible. Write like a real
+  person, not a brand manager. Pick the slide-6 CTA from the framework doc's
+  CTA menu (shop / save trigger / comment-keyword) — never "follow for more".
+
 ## Step 4 — Write a TEXT-FREE background prompt per slide
 The image model is unreliable at rendering text, so we do NOT ask it to draw
 the headline. Instead each prompt produces a **text-free background** and the
@@ -145,10 +156,15 @@ python3 pipeline/build_gallery.py brands/<slug>/manifest.json
 ```
 Writes `brands/<slug>/index.html` (add `--open` to open a browser locally).
 
-## Step 7 — Report back
+## Step 7 — Report back + caption
 Tell the user the folder, how many of 6 slides rendered, any failures, and
-the path to `index.html`. Offer one revision pass (e.g. "tighten slide 3's
-hook" or "warmer palette") — edit `slides.json` and re-run steps 5–6.
+the path to `index.html`. Then hand them a ready-to-post **caption**:
+- 3–4 short lines in the brand voice (no banned words),
+- the slide-6 CTA restated (shop / save trigger / comment-keyword),
+- 3–5 relevant hashtags only if the brand uses them.
+
+Offer one revision pass (e.g. "tighten slide 3's hook" or "warmer palette") —
+edit `slides.json` and re-run steps 5–6.
 
 ## Quality bar (definition of done) — do not skip
 Lock this in so every run matches the reference quality:
@@ -164,8 +180,10 @@ Lock this in so every run matches the reference quality:
    per slide. Dark text on light slides, light text on dark slides.
 5. **Consistency** — all 6 share one palette, one font, one layout system. Vary
    composition, not identity.
-6. **Correct copy** — headlines in brand voice; no invented claims/prices/stats;
-   CTAs/fine print go in the caption or a short `subline`, not big in the art.
+6. **Correct copy** — headlines in brand voice, one idea per slide, ≤ 60 chars,
+   zero banned words; slide 2 is a standalone alternate hook; no invented
+   claims/prices/stats; the slide-6 CTA is a real action (shop / save / comment
+   keyword) and lives in a short `subline` or the caption, not big in the art.
 7. **Render check** — open 2–3 slides and confirm contrast + spelling before
    reporting done.
 
