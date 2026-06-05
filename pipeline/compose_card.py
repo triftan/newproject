@@ -127,7 +127,17 @@ def line_x(W, line_w, align, mx):
     return mx
 
 
-def compose_overlay(card, style, src_path, dest_path, scale):
+def draw_page_number(draw, W, mx, mt, scale, n, total, color, font_path):
+    """Small 'n/total' counter in the top-right safe corner."""
+    if not total:
+        return
+    txt = f"{n}/{total}"
+    f = ImageFont.truetype(font_path, int(32 * scale))
+    w = draw.textlength(txt, font=f)
+    draw.text((W - mx - w, mt), txt, font=f, fill=color)
+
+
+def compose_overlay(card, style, src_path, dest_path, scale, total=0):
     img = Image.open(src_path).convert("RGB")
     W, H = img.size
 
@@ -152,9 +162,10 @@ def compose_overlay(card, style, src_path, dest_path, scale):
 
     eyebrow = card.get("kicker") or ""
     eyebrow_font = ImageFont.truetype(serif_italic, int(34 * scale))
+    title_max = int(card.get("title_max", style.get("title_max", 96)) * scale)
     title_font, title_lines, tsize = fit_title(
-        draw, card.get("title", ""), serif, max_w, int(96 * scale), 4)
-    body_size = int(style.get("body_size", 24) * scale)
+        draw, card.get("title", ""), serif, max_w, title_max, 4)
+    body_size = int(card.get("body_size", style.get("body_size", 24)) * scale)
     body_font = ImageFont.truetype(sans, body_size)
     body_lines = wrap(draw, card.get("body") or "", body_font, max_w)
 
@@ -196,12 +207,15 @@ def compose_overlay(card, style, src_path, dest_path, scale):
         draw.text((line_x(W, lw, align, mx), y), ln, font=body_font, fill=body_color)
         y += body_lh
 
+    draw_page_number(draw, W, mx, mt, scale, card["n"], total,
+                     style.get("number_color", color), sans)
+
     img.save(dest_path, format="PNG")
     print(f"  slide {card['n']}: '{card.get('title','')[:28]}' [{align}/{valign}], "
           f"title {len(title_lines)} line(s) @ {tsize}px, body {body_size}px")
 
 
-def compose_card(card, style, src_path, dest_path, scale):
+def compose_card(card, style, src_path, dest_path, scale, total=0):
     img = Image.open(src_path).convert("RGB")
     W, H = img.size
     draw = ImageDraw.Draw(img, "RGBA")
@@ -238,6 +252,9 @@ def compose_card(card, style, src_path, dest_path, scale):
     for ln in body_lines:
         draw.text((pad_x, y), ln, font=body_font, fill=style.get("body_color", "#5b5b5b"))
         y += body_lh
+    draw_page_number(draw, W, pad_x, pad_x, scale, card["n"], total,
+                     style.get("number_color", style.get("kicker_color", "#2f6b4f")),
+                     resolve_font("Inter-SemiBold.ttf"))
     img.save(dest_path, format="PNG")
     print(f"  slide {card['n']}: '{card.get('title','')[:30]}' card")
 
@@ -259,8 +276,10 @@ def main() -> int:
     mode = style.get("mode", "overlay")
     out_dir = base / "slides"
 
-    print(f"Composing editorial text (mode: {mode})")
-    for card in cards_doc.get("cards", []):
+    cards = cards_doc.get("cards", [])
+    total = len(cards)
+    print(f"Composing editorial text (mode: {mode}, {total} slides)")
+    for card in cards:
         n = card["n"]
         final = out_dir / f"slide-{n}.png"
         raw = out_dir / f"raw-{n}.png"
@@ -275,9 +294,9 @@ def main() -> int:
         with Image.open(src) as probe:
             scale = probe.size[0] / 1080.0
         if mode == "card":
-            compose_card(card, style, src, final, scale)
+            compose_card(card, style, src, final, scale, total)
         else:
-            compose_overlay(card, style, src, final, scale)
+            compose_overlay(card, style, src, final, scale, total)
 
     print("Done. Re-run is idempotent (sources from slides/raw-N.png).")
     return 0
