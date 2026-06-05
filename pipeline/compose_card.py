@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
-"""Composite an editorial "card" layout onto rendered photos.
+"""Composite editorial text onto rendered photos.
 
-Inspired by clean photo-forward carousel templates (e.g. minimal habit-tips
-decks): a full-bleed photo with a solid card at the bottom holding a small
-uppercase KICKER label, a bold TITLE, and a 2-3 line description. This is a
-different look from compose_text.py's big bottom headline, so it lives in its
-own script and leaves the main compositor untouched.
+Two looks, chosen by `style.mode` in cards.json:
 
-Reads:
-  - brands/<slug>/manifest.json   (for brand + the list of rendered slides)
-  - brands/<slug>/cards.json      (kicker/title/body text per slide + style)
+- "overlay" (default): a big serif TITLE in a brand color laid directly over the
+  photo, with a small uppercase eyebrow above and an all-caps subtitle below.
+  No card/band. A soft top gradient + text shadow keep it legible. This matches
+  photo-forward editorial templates where the type sits right on the image.
+- "card": a solid bottom band holding an uppercase kicker, bold title, and a
+  2-3 line description.
 
-For each slide it sources the text-free photo (slides/raw-N.png if present,
-else slides/slide-N.png which it backs up to raw-N.png first), draws the card,
-and writes the final slides/slide-N.png. Idempotent: re-running re-sources from
-raw-N.png so you can retune the layout for free.
+Reads brands/<slug>/manifest.json (brand) + brands/<slug>/cards.json (text +
+style). Sources each text-free photo from slides/raw-N.png (or backs up
+slide-N.png to raw-N.png first), draws the text, writes slides/slide-N.png.
+Idempotent: re-running re-sources from raw-N.png, so retuning is free.
 
 Usage:
     python3 pipeline/compose_card.py brands/<slug>/manifest.json
@@ -29,26 +28,10 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ASSETS = Path(__file__).resolve().parent.parent / "assets" / "fonts"
-TITLE_FONT = "Inter-SemiBold.ttf"
-BODY_FONT = "Inter-SemiBold.ttf"
 FALLBACK = [
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
 ]
-
-# Layout constants, tuned for a 1080-wide canvas (scaled for other widths).
-PAD_X = 70           # left/right padding inside the card
-PAD_TOP = 60         # space above the kicker
-PAD_BOTTOM = 64      # space below the body
-KICKER_SIZE = 27
-TITLE_SIZE = 60
-BODY_SIZE = 30
-TITLE_LEADING = 1.10
-BODY_LEADING = 1.36
-KICKER_TRACK = 3.0
-GAP_KICKER_TITLE = 22
-GAP_TITLE_BODY = 24
-SWATCH = 18          # little accent square before the kicker
 
 
 def resolve_font(name: str) -> str:
@@ -88,101 +71,161 @@ def wrap(draw, text, font, max_w):
     return lines
 
 
-def compose(card, style, brand, src_path, dest_path, scale):
+def wrap_tracked(draw, text, font, max_w, track):
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        trial = f"{cur} {w}".strip()
+        if track_width(draw, trial, font, track) <= max_w or not cur:
+            cur = trial
+        else:
+            lines.append(cur)
+            cur = w
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def fit_title(draw, text, font_path, max_w, max_size, max_lines, min_size=40):
+    size = max_size
+    while size >= min_size:
+        font = ImageFont.truetype(font_path, size)
+        lines = wrap(draw, text, font, max_w)
+        if len(lines) <= max_lines:
+            return font, lines, size
+        size -= 4
+    font = ImageFont.truetype(font_path, min_size)
+    return font, wrap(draw, text, font, max_w), min_size
+
+
+def apply_top_gradient(img, max_alpha, frac):
+    """Darken the top `frac` of the image with a fading black gradient."""
+    if max_alpha <= 0:
+        return img
+    W, H = img.size
+    span = max(1, int(H * frac))
+    col = Image.new("L", (1, H), 0)
+    px = col.load()
+    for y in range(H):
+        px[0, y] = int(max_alpha * (1 - y / span)) if y < span else 0
+    mask = col.resize((W, H))
+    img.paste(Image.new("RGB", (W, H), (0, 0, 0)), (0, 0), mask)
+    return img
+
+
+def compose_overlay(card, style, src_path, dest_path, scale):
+    img = Image.open(src_path).convert("RGB")
+    W, H = img.size
+
+    color = style.get("title_color", "#ecd94f")
+    eyebrow_color = style.get("kicker_color", color)
+    body_color = style.get("body_color", color)
+    serif = resolve_font(style.get("title_font", "Lora-Bold.ttf"))
+    sans = resolve_font(style.get("label_font", "Inter-SemiBold.ttf"))
+
+    img = apply_top_gradient(img, int(style.get("scrim", 120)), 0.62)
+    draw = ImageDraw.Draw(img, "RGBA")
+
+    mx = int(60 * scale)
+    max_w = W - 2 * mx
+    y = int(64 * scale)
+
+    eyebrow = (card.get("kicker") or "").upper()
+    eyebrow_font = ImageFont.truetype(sans, int(26 * scale))
+    title_font, title_lines, tsize = fit_title(
+        draw, card.get("title", ""), serif, max_w, int(92 * scale), 4)
+    body_font = ImageFont.truetype(sans, int(25 * scale))
+    body_track = 1.4 * scale
+    body_lines = wrap_tracked(draw, (card.get("body") or "").upper(),
+                              body_font, max_w, body_track)
+
+    shadow = (0, 0, 0, 120)
+    soff = max(2, int(3 * scale))
+
+    # Eyebrow
+    if eyebrow:
+        draw_tracked(draw, (mx + soff, y + soff), eyebrow, eyebrow_font, shadow, 3 * scale)
+        draw_tracked(draw, (mx, y), eyebrow, eyebrow_font, eyebrow_color, 3 * scale)
+        y += int(26 * scale) + int(22 * scale)
+
+    # Title (serif, big)
+    title_lh = int(tsize * 1.02)
+    for ln in title_lines:
+        draw.text((mx + soff, y + soff), ln, font=title_font, fill=shadow)
+        draw.text((mx, y), ln, font=title_font, fill=color)
+        y += title_lh
+    y += int(26 * scale)
+
+    # Body (uppercase, tracked)
+    body_lh = int(25 * scale * 1.5)
+    for ln in body_lines:
+        draw_tracked(draw, (mx + soff, y + soff), ln, body_font, shadow, body_track)
+        draw_tracked(draw, (mx, y), ln, body_font, body_color, body_track)
+        y += body_lh
+
+    img.save(dest_path, format="PNG")
+    print(f"  slide {card['n']}: '{card.get('title','')[:30]}' overlay, "
+          f"{len(title_lines)} title line(s) @ {tsize}px")
+
+
+def compose_card(card, style, src_path, dest_path, scale):
     img = Image.open(src_path).convert("RGB")
     W, H = img.size
     draw = ImageDraw.Draw(img, "RGBA")
 
-    pad_x = int(PAD_X * scale)
-    pad_top = int(PAD_TOP * scale)
-    pad_bot = int(PAD_BOTTOM * scale)
+    pad_x, pad_top, pad_bot = int(70 * scale), int(60 * scale), int(64 * scale)
     max_w = W - 2 * pad_x
-
-    kicker_font = ImageFont.truetype(resolve_font(BODY_FONT), int(KICKER_SIZE * scale))
-    title_font = ImageFont.truetype(resolve_font(TITLE_FONT), int(TITLE_SIZE * scale))
-    body_font = ImageFont.truetype(resolve_font(BODY_FONT), int(BODY_SIZE * scale))
+    kicker_font = ImageFont.truetype(resolve_font("Inter-SemiBold.ttf"), int(27 * scale))
+    title_font = ImageFont.truetype(resolve_font("Inter-SemiBold.ttf"), int(60 * scale))
+    body_font = ImageFont.truetype(resolve_font("Inter-SemiBold.ttf"), int(30 * scale))
 
     kicker = (card.get("kicker") or "").upper()
     title_lines = wrap(draw, card.get("title", ""), title_font, max_w)
     body_lines = wrap(draw, card.get("body", ""), body_font, max_w)
-
-    title_lh = int(TITLE_SIZE * scale * TITLE_LEADING)
-    body_lh = int(BODY_SIZE * scale * BODY_LEADING)
-    kicker_h = int(KICKER_SIZE * scale)
-
-    content_h = (
-        kicker_h
-        + int(GAP_KICKER_TITLE * scale)
-        + title_lh * len(title_lines)
-        + int(GAP_TITLE_BODY * scale)
-        + body_lh * len(body_lines)
-    )
-    card_h = content_h + pad_top + pad_bot
-    card_top = H - card_h
-
-    # Solid card band across the bottom.
+    title_lh, body_lh, kicker_h = int(60 * scale * 1.1), int(30 * scale * 1.36), int(27 * scale)
+    content_h = (kicker_h + int(22 * scale) + title_lh * len(title_lines)
+                 + int(24 * scale) + body_lh * len(body_lines))
+    card_top = H - (content_h + pad_top + pad_bot)
     draw.rectangle([0, card_top, W, H], fill=style.get("card_bg", "#f6f3ea"))
 
     y = card_top + pad_top
-
-    # Kicker row: a small accent swatch, then the tracked uppercase label.
-    sw = int(SWATCH * scale)
-    swatch_color = style.get("swatch_color")
-    kx = pad_x
-    if swatch_color:
-        cy = y + (kicker_h - sw) // 2
-        draw.rectangle([pad_x, cy, pad_x + sw, cy + sw], fill=swatch_color)
+    sw = int(18 * scale)
+    if style.get("swatch_color"):
+        draw.rectangle([pad_x, y + (kicker_h - sw) // 2, pad_x + sw, y + (kicker_h - sw) // 2 + sw],
+                       fill=style["swatch_color"])
         kx = pad_x + sw + int(14 * scale)
-    draw_tracked(draw, (kx, y), kicker, kicker_font,
-                 style.get("kicker_color", "#2f6b4f"), KICKER_TRACK * scale)
-    y += kicker_h + int(GAP_KICKER_TITLE * scale)
-
-    # Title.
+    else:
+        kx = pad_x
+    draw_tracked(draw, (kx, y), kicker, kicker_font, style.get("kicker_color", "#2f6b4f"), 3 * scale)
+    y += kicker_h + int(22 * scale)
     for ln in title_lines:
         draw.text((pad_x, y), ln, font=title_font, fill=style.get("title_color", "#1b1b1b"))
         y += title_lh
-    y += int(GAP_TITLE_BODY * scale)
-
-    # Body.
+    y += int(24 * scale)
     for ln in body_lines:
         draw.text((pad_x, y), ln, font=body_font, fill=style.get("body_color", "#5b5b5b"))
         y += body_lh
-
-    # Optional brand handle, bottom-right of the card.
-    handle = style.get("handle")
-    if handle:
-        hf = ImageFont.truetype(resolve_font(BODY_FONT), int(22 * scale))
-        hw = draw.textlength(handle, font=hf)
-        draw.text((W - pad_x - hw, H - int(34 * scale)), handle,
-                  font=hf, fill=style.get("body_color", "#5b5b5b"))
-
     img.save(dest_path, format="PNG")
-    n_lines = len(title_lines) + len(body_lines)
-    print(f"  slide {card['n']}: '{card.get('title','')[:32]}' card, {n_lines} text line(s)")
+    print(f"  slide {card['n']}: '{card.get('title','')[:30]}' card")
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Composite editorial card layout onto photos")
+    ap = argparse.ArgumentParser(description="Composite editorial text onto photos")
     ap.add_argument("manifest", help="path to brands/<slug>/manifest.json")
     args = ap.parse_args()
 
     manifest_path = Path(args.manifest).resolve()
-    if not manifest_path.exists():
-        print(f"error: manifest not found: {manifest_path}")
-        return 1
     base = manifest_path.parent
     cards_path = base / "cards.json"
-    if not cards_path.exists():
-        print(f"error: cards.json not found next to manifest: {cards_path}")
+    if not manifest_path.exists() or not cards_path.exists():
+        print("error: need both manifest.json and cards.json in the brand folder")
         return 1
 
-    manifest = json.loads(manifest_path.read_text())
     cards_doc = json.loads(cards_path.read_text())
-    brand = manifest.get("brand", {})
     style = cards_doc.get("style", {})
+    mode = style.get("mode", "overlay")
     out_dir = base / "slides"
 
-    print(f"Composing editorial cards (font: {TITLE_FONT})")
+    print(f"Composing editorial text (mode: {mode})")
     for card in cards_doc.get("cards", []):
         n = card["n"]
         final = out_dir / f"slide-{n}.png"
@@ -195,10 +238,12 @@ def main() -> int:
         else:
             print(f"  slide {n}: no image at {final}, skipping")
             continue
-        # Scale layout constants relative to a 1080-wide reference.
         with Image.open(src) as probe:
             scale = probe.size[0] / 1080.0
-        compose(card, style, brand, src, final, scale)
+        if mode == "card":
+            compose_card(card, style, src, final, scale)
+        else:
+            compose_overlay(card, style, src, final, scale)
 
     print("Done. Re-run is idempotent (sources from slides/raw-N.png).")
     return 0
