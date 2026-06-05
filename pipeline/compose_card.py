@@ -97,19 +97,34 @@ def fit_title(draw, text, font_path, max_w, max_size, max_lines, min_size=40):
     return font, wrap(draw, text, font, max_w), min_size
 
 
-def apply_top_gradient(img, max_alpha, frac):
-    """Darken the top `frac` of the image with a fading black gradient."""
+def apply_band_gradient(img, max_alpha, valign):
+    """Gently darken the third of the image where the text sits (legibility,
+    no hard box). Disabled when max_alpha <= 0."""
     if max_alpha <= 0:
         return img
     W, H = img.size
-    span = max(1, int(H * frac))
     col = Image.new("L", (1, H), 0)
     px = col.load()
     for y in range(H):
-        px[0, y] = int(max_alpha * (1 - y / span)) if y < span else 0
+        f = y / (H - 1)
+        if valign == "top":
+            a = max_alpha * max(0.0, 1 - f / 0.5)
+        elif valign == "bottom":
+            a = max_alpha * max(0.0, (f - 0.5) / 0.5)
+        else:  # center
+            a = max_alpha * max(0.0, 1 - abs(f - 0.5) / 0.32)
+        px[0, y] = int(a)
     mask = col.resize((W, H))
     img.paste(Image.new("RGB", (W, H), (0, 0, 0)), (0, 0), mask)
     return img
+
+
+def line_x(W, line_w, align, mx):
+    if align == "right":
+        return W - mx - line_w
+    if align == "center":
+        return (W - line_w) // 2
+    return mx
 
 
 def compose_overlay(card, style, src_path, dest_path, scale):
@@ -117,54 +132,73 @@ def compose_overlay(card, style, src_path, dest_path, scale):
     W, H = img.size
 
     color = style.get("title_color", "#ecd94f")
-    eyebrow_color = style.get("kicker_color", color)
-    body_color = style.get("body_color", color)
-    serif = resolve_font(style.get("title_font", "Lora-Bold.ttf"))
-    sans = resolve_font(style.get("label_font", "Inter-SemiBold.ttf"))
+    eyebrow_color = style.get("eyebrow_color", color)
+    body_color = style.get("body_color", "#f5f0dd")
+    serif = resolve_font(style.get("title_font", "LiberationSerif-Bold.ttf"))
+    serif_italic = resolve_font(style.get("eyebrow_font", "LiberationSerif-Italic.ttf"))
+    sans = resolve_font(style.get("body_font", "Inter-SemiBold.ttf"))
 
-    img = apply_top_gradient(img, int(style.get("scrim", 120)), 0.62)
+    align = card.get("align", "left")
+    valign = card.get("valign", "center")
+
+    # Safe margins so nothing is clipped on mobile.
+    mx = int(W * style.get("margin_x", 0.075))
+    mt = int(H * style.get("margin_top", 0.06))
+    mb = int(H * style.get("margin_bottom", 0.06))
+    max_w = W - 2 * mx
+
+    img = apply_band_gradient(img, int(style.get("scrim", 90)), valign)
     draw = ImageDraw.Draw(img, "RGBA")
 
-    mx = int(60 * scale)
-    max_w = W - 2 * mx
-    y = int(64 * scale)
-
-    eyebrow = (card.get("kicker") or "").upper()
-    eyebrow_font = ImageFont.truetype(sans, int(26 * scale))
+    eyebrow = card.get("kicker") or ""
+    eyebrow_font = ImageFont.truetype(serif_italic, int(34 * scale))
     title_font, title_lines, tsize = fit_title(
-        draw, card.get("title", ""), serif, max_w, int(92 * scale), 4)
-    body_font = ImageFont.truetype(sans, int(25 * scale))
-    body_track = 1.4 * scale
-    body_lines = wrap_tracked(draw, (card.get("body") or "").upper(),
-                              body_font, max_w, body_track)
+        draw, card.get("title", ""), serif, max_w, int(96 * scale), 4)
+    body_size = int(style.get("body_size", 24) * scale)
+    body_font = ImageFont.truetype(sans, body_size)
+    body_lines = wrap(draw, card.get("body") or "", body_font, max_w)
 
-    shadow = (0, 0, 0, 120)
-    soff = max(2, int(3 * scale))
+    # Pre-measure the full block so we can vertically place it within margins.
+    title_lh = int(tsize * 1.04)
+    body_lh = int(body_size * 1.45)
+    eyebrow_h = int(34 * scale)
+    gap_eyebrow = int(18 * scale)
+    gap_body = int(30 * scale)
+    para_gap = int(body_size * 0.6)  # blank line between body sentences
 
-    # Eyebrow
+    block_h = 0
     if eyebrow:
-        draw_tracked(draw, (mx + soff, y + soff), eyebrow, eyebrow_font, shadow, 3 * scale)
-        draw_tracked(draw, (mx, y), eyebrow, eyebrow_font, eyebrow_color, 3 * scale)
-        y += int(26 * scale) + int(22 * scale)
+        block_h += eyebrow_h + gap_eyebrow
+    block_h += title_lh * len(title_lines) + gap_body
+    block_h += body_lh * len(body_lines)
 
-    # Title (serif, big)
-    title_lh = int(tsize * 1.02)
+    if valign == "top":
+        y = mt
+    elif valign == "bottom":
+        y = H - mb - block_h
+    else:
+        y = (H - block_h) // 2
+    y = max(mt, y)
+
+    if eyebrow:
+        ew = draw.textlength(eyebrow, font=eyebrow_font)
+        draw.text((line_x(W, ew, align, mx), y), eyebrow, font=eyebrow_font, fill=eyebrow_color)
+        y += eyebrow_h + gap_eyebrow
+
     for ln in title_lines:
-        draw.text((mx + soff, y + soff), ln, font=title_font, fill=shadow)
-        draw.text((mx, y), ln, font=title_font, fill=color)
+        lw = draw.textlength(ln, font=title_font)
+        draw.text((line_x(W, lw, align, mx), y), ln, font=title_font, fill=color)
         y += title_lh
-    y += int(26 * scale)
+    y += gap_body
 
-    # Body (uppercase, tracked)
-    body_lh = int(25 * scale * 1.5)
     for ln in body_lines:
-        draw_tracked(draw, (mx + soff, y + soff), ln, body_font, shadow, body_track)
-        draw_tracked(draw, (mx, y), ln, body_font, body_color, body_track)
+        lw = draw.textlength(ln, font=body_font)
+        draw.text((line_x(W, lw, align, mx), y), ln, font=body_font, fill=body_color)
         y += body_lh
 
     img.save(dest_path, format="PNG")
-    print(f"  slide {card['n']}: '{card.get('title','')[:30]}' overlay, "
-          f"{len(title_lines)} title line(s) @ {tsize}px")
+    print(f"  slide {card['n']}: '{card.get('title','')[:28]}' [{align}/{valign}], "
+          f"title {len(title_lines)} line(s) @ {tsize}px, body {body_size}px")
 
 
 def compose_card(card, style, src_path, dest_path, scale):
