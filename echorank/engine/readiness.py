@@ -171,8 +171,9 @@ def extract_schema_types(jsonld_blocks):
 
 
 def probe(domain):
+    scheme = "http" if domain.startswith("http://") else "https"
     domain = re.sub(r"^https?://", "", domain).strip("/").split("/")[0]
-    base = f"https://{domain}"
+    base = f"{scheme}://{domain}"
     out = {"domain": domain, "base_url": base, "checks": {}}
     c = out["checks"]
 

@@ -1,0 +1,39 @@
+{
+  "brand": "EchoRank",
+  "slug": "echorank",
+  "domain": "echorank.vercel.app",
+  "category": "AI search visibility (GEO) tools",
+  "competitors": ["Profound", "Peec AI", "Otterly.AI", "manual audits"],
+  "tagline": "We ran our own rubric on ourselves at day zero. It's ugly. That's the point — watch this score climb in public.",
+  "generated": "2026-08-08",
+  "summary": "EchoRank is one day old, and AI engines have never heard of it: every money query in our own category returns Profound, Peec, Otterly or generic SEO advice, and our citation footprint is effectively zero — no Reddit history, no reviews, no third-party mentions. The one thing a day-old company controls is its own site, so that layer is done properly: 90/100 readiness, llms.txt, seven schema.org types, answer-first copy. By our own math that's still an F overall (23/100), because readiness is only 20% of visibility — the other 80% must be earned in public. We're publishing this baseline so every future re-audit is verifiable against it. If we can't move our own score, you shouldn't pay us to move yours.",
+  "money_queries": [
+    {"query": "AI search visibility audit", "presence": "absent", "winner": "Profound", "evidence": "Enterprise GEO platforms and agency listicles own this query; EchoRank has zero citations at launch."},
+    {"query": "how to show up in ChatGPT answers", "presence": "absent", "winner": "Generic SEO blogs", "evidence": "Answered from GEO explainers by SEO tool vendors (Semrush, Ahrefs) and consultants."},
+    {"query": "GEO generative engine optimization tools", "presence": "absent", "winner": "Peec AI", "evidence": "Tool roundups list Profound, Peec, Otterly, Scrunch — no EchoRank."},
+    {"query": "check my brand in AI search", "presence": "absent", "winner": "Otterly.AI", "evidence": "Self-serve checkers hold this query; we are not yet in any roundup that feeds it."},
+    {"query": "cheap Profound alternative", "presence": "absent", "winner": "Peec AI", "evidence": "Exactly the query EchoRank exists to win. Currently not present in a single source that answers it."},
+    {"query": "is my website readable by AI crawlers", "presence": "absent", "winner": "Technical SEO blogs", "evidence": "llms.txt explainers and crawler documentation dominate; our methodology page is not yet indexed anywhere."}
+  ],
+  "sources": [
+    {"channel": "Reddit", "status": "absent", "detail": "No mentions. First build-in-public posts are scheduled; engines quote these threads heavily in this category."},
+    {"channel": "Wikipedia", "status": "absent", "detail": "No article, and none warranted yet. Noted for honesty: this channel stays absent for a long time."},
+    {"channel": "YouTube", "status": "absent", "detail": "Nothing. Not a near-term priority."},
+    {"channel": "Review sites (G2/Capterra)", "status": "absent", "detail": "Not listed. Listing becomes worthwhile once the first paying customers exist."},
+    {"channel": "Comparison roundups", "status": "absent", "detail": "Not in any 'GEO tools' roundup. Target: appear in three within 90 days — this single channel feeds most engine answers in the category."},
+    {"channel": "Own answerable content", "status": "strong", "detail": "90/100 readiness probe: llms.txt, 7 schema.org types, answer-first copy, full methodology disclosure. The only channel a day-old company fully controls."}
+  ],
+  "roadmap": [
+    {"priority": 1, "title": "Publish verifiable audits people want to share", "why": "Our demo audits of Cal.com, Plausible and Buttondown are the growth engine: named brands attract the links and discussion threads that the citation layer is made of.", "effort": "medium"},
+    {"priority": 2, "title": "Get into three 'GEO tools' roundups", "why": "One channel — comparison roundups — feeds most AI answers in this category. Three placements would move engine presence from 0% to measurable.", "effort": "medium"},
+    {"priority": 3, "title": "Build a Reddit presence that earns citations", "why": "Honest build-in-public threads (an AI founder publishing its own F grade) are exactly the material engines quote.", "effort": "low"},
+    {"priority": 4, "title": "Re-audit monthly and publish the trend line", "why": "A visibility auditor whose own visibility is publicly tracked is its own best case study — and its own best ad.", "effort": "low"},
+    {"priority": 5, "title": "Win 'cheap Profound alternative' outright", "why": "The single highest-intent query in our category, and the incumbents don't want to rank for it. We do.", "effort": "medium"}
+  ],
+  "methodology_notes": [
+    "Same rubric as every EchoRank audit: 50% AI-answer presence, 30% citation footprint, 20% site readiness. No self-serving adjustments — the F stands.",
+    "Site readiness probed against the production build on 2026-08-08 with the same automated tool used for client audits.",
+    "Engine presence sampled from the retrieval layer for six category money queries in August 2026; at day zero the honest result is absence across all of them.",
+    "This report is the public baseline. Every future self-audit will be published against it, dated, at this URL."
+  ]
+}
