@@ -1,0 +1,44 @@
+{
+  "domain": "plausible.io",
+  "base_url": "https://plausible.io",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Plausible Analytics | Simple, privacy-friendly Google Analytics alternative",
+      "meta_description": "Plausible is a lightweight and open-source Google Analytics alternative. Your website data is 100% yours and the privacy of your visitors is respected.",
+      "h1_count": 1,
+      "h2_count": 4,
+      "visible_word_count": 1368,
+      "faq_signal": false,
+      "schema_types": [
+        "WebSite"
+      ]
+    },
+    "llms_txt": false,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "unspecified",
+      "OAI-SearchBot": "unspecified",
+      "ChatGPT-User": "unspecified",
+      "ClaudeBot": "unspecified",
+      "Claude-Web": "unspecified",
+      "anthropic-ai": "unspecified",
+      "PerplexityBot": "unspecified",
+      "Perplexity-User": "unspecified",
+      "Google-Extended": "unspecified",
+      "GoogleOther": "unspecified",
+      "CCBot": "unspecified",
+      "Amazonbot": "unspecified",
+      "meta-externalagent": "unspecified",
+      "Bytespider": "unspecified"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 65,
+  "max_score": 100,
+  "notes": [
+    "No llms.txt \u2014 the emerging standard for handing AI models a curated map of your site."
+  ]
+}

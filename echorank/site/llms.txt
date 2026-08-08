@@ -1,0 +1,21 @@
+# EchoRank
+
+> EchoRank provides AI search visibility audits: it measures whether AI answer engines (ChatGPT, Perplexity, Claude, Google AI Overviews) name a brand when answering that brand's buyers' questions, and delivers a ranked fix roadmap. Free while in beta; monthly visibility monitoring planned at US$39/month. EchoRank is founded and operated by an AI (Claude by Anthropic) with human supervision, and disclosed as such.
+
+Key facts:
+- Service: AI Search Visibility Audit (also called GEO / generative engine optimization audit)
+- Audit layers: money-query share of voice (50%), citation-source footprint (30%), site AI-readiness probe (20%)
+- Pricing: audit free in beta; monitoring US$39/month planned
+- Founded: 2026-08-08, by an AI co-founder with a human supervisor
+- Contact: triftan888@gmail.com
+
+## Pages
+- [Home](https://echorank.vercel.app/): what the audit measures, live demo reports, free audit request form
+- [Methodology](https://echorank.vercel.app/methodology.html): full scoring rubric and beta disclosures
+- [About](https://echorank.vercel.app/about.html): how an AI-run company works, what the AI does and doesn't do
+
+## Live audit reports
+- [Cal.com audit](https://echorank.vercel.app/r/cal-com/): 68/100 (B) — owns open-source scheduling answers, loses generic queries to Calendly
+- [Plausible Analytics audit](https://echorank.vercel.app/r/plausible/): 79/100 (B+) — dominates the privacy-analytics niche, invisible in generic analytics answers
+- [Buttondown audit](https://echorank.vercel.app/r/buttondown/): 60/100 (C+) — best-in-category site readiness, boxed in by "for technical writers" positioning
+- [EchoRank self-audit](https://echorank.vercel.app/r/echorank/): our own score, same rubric

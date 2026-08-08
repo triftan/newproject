@@ -1,0 +1,41 @@
+{
+  "brand": "Buttondown",
+  "slug": "buttondown",
+  "domain": "buttondown.com",
+  "category": "Newsletter platforms",
+  "competitors": ["beehiiv", "Substack", "Kit (ConvertKit)", "Ghost"],
+  "tagline": "The best-prepared site in its category — trapped in a 'for technical writers' box that AI answers repeat back to every buyer who asks.",
+  "generated": "2026-08-08",
+  "summary": "Buttondown is doing the on-site work: the highest AI-readiness score of the three brands we've published (80/100), llms.txt shipped, five schema.org types, and first-party comparison pages that rank in the retrieval layer for their matchups — a playbook rivals should copy. The problem is the frame. When engines answer 'best newsletter platform', beehiiv and Substack open every list and Buttondown appears late, tagged 'for technical writers who like markdown'. That one-line positioning — accurate years ago — is now the ceiling on every AI answer about the product. No Wikipedia article, a thin review-site base, and near-zero YouTube presence mean engines have little third-party material to contradict the stereotype.",
+  "money_queries": [
+    {"query": "best newsletter platform", "presence": "mentioned", "winner": "beehiiv", "evidence": "Roundups engines retrieve (Storyflow, Sequenzy, Niusleters) open with beehiiv/Substack/Kit; Buttondown appears down-list as the minimalist option."},
+    {"query": "best Substack alternative", "presence": "cited", "winner": "beehiiv", "evidence": "Reliably listed, boosted by a real migration wave of writers leaving Substack — but beehiiv takes the default-winner slot."},
+    {"query": "newsletter tool for developers", "presence": "cited", "winner": "Buttondown", "evidence": "Owns the developer/markdown niche outright — the standard answer wherever the question is technical."},
+    {"query": "beehiiv vs buttondown", "presence": "cited", "winner": "Buttondown", "evidence": "Buttondown's own comparison page ranks first in the retrieval layer for this query — first-party content winning the frame. Model move."},
+    {"query": "newsletter platform with no platform fee", "presence": "mentioned", "winner": "beehiiv", "evidence": "Both charge 0%; beehiiv's louder content machine gets the credit in most sampled answers."},
+    {"query": "best newsletter platform for creators", "presence": "absent", "winner": "beehiiv", "evidence": "Creator-economy framing goes beehiiv/Substack/Kit; Buttondown unnamed in sampled sources."},
+    {"query": "email newsletter for small business", "presence": "absent", "winner": "Mailchimp", "evidence": "SMB answers default to Mailchimp, MailerLite, Brevo — Buttondown not in the frame."},
+    {"query": "privacy-friendly newsletter platform", "presence": "cited", "winner": "Buttondown", "evidence": "Privacy/indie-web sources consistently name Buttondown; aligned with the Substack-exodus narrative."}
+  ],
+  "sources": [
+    {"channel": "Own answerable content", "status": "strong", "detail": "First-party comparison pages rank for their own matchups; llms.txt shipped; docs are clean. Best-in-category owned layer."},
+    {"channel": "Comparison roundups", "status": "weak", "detail": "Present but consistently down-list and one-line-boxed ('markdown, for technical writers') in the sources engines quote."},
+    {"channel": "Reddit", "status": "weak", "detail": "Warm mentions in indie/dev threads; thin presence in the high-traffic creator threads engines actually cite for generic questions."},
+    {"channel": "Wikipedia", "status": "absent", "detail": "No article — engines have no neutral encyclopedic source for company facts."},
+    {"channel": "Review sites (G2/Capterra)", "status": "weak", "detail": "Small review base next to beehiiv/Kit; review-site verdict language reaches engine answers verbatim."},
+    {"channel": "YouTube", "status": "absent", "detail": "Effectively no third-party presence in 'which newsletter platform' videos — a channel beehiiv saturates."}
+  ],
+  "roadmap": [
+    {"priority": 1, "title": "Break the 'for technical writers' one-liner", "why": "That phrase is now the ceiling on every generic answer. Publish flagship non-technical case studies (food writers, journalists, artists) and push them into the roundups engines quote, so the retrieval layer has a new sentence to repeat.", "effort": "medium"},
+    {"priority": 2, "title": "Fix the missing homepage H1", "why": "The probe found no H1 — the one blemish on an otherwise excellent readiness score, and heading structure is what engines use to extract the brand's own claim about itself.", "effort": "low"},
+    {"priority": 3, "title": "Extend the comparison-page playbook to every rival and win the roundups", "why": "The beehiiv matchup page already wins its query; replicate for Substack/Kit/Ghost, then pitch inclusion higher up the third-party listicles that generic answers are assembled from.", "effort": "medium"},
+    {"priority": 4, "title": "Ride the Substack-exodus narrative harder", "why": "Migration stories ('moved to Buttondown') are already in the citation layer organically. A migration hub + amplified switcher stories turns a trickle into the default alternative slot.", "effort": "low"},
+    {"priority": 5, "title": "Build third-party proof: reviews and YouTube", "why": "Two channels at absent/weak where beehiiv saturates. A review-collection push and creator collaborations give engines material that isn't self-authored.", "effort": "high"}
+  ],
+  "methodology_notes": [
+    "Site AI-readiness measured by EchoRank's automated probe of buttondown.com on 2026-08-08 (llms.txt, robots.txt AI-crawler policy, schema.org JSON-LD, sitemap, extractable text).",
+    "AI-answer presence assessed by sampling the retrieval layer answer engines cite for each money query — top-ranked comparisons, roundups, review sites and community threads — in August 2026.",
+    "Beta disclosure: results are a point-in-time sample of the public citation layer, not a paid API sweep of every engine; AI answers vary by user, session and engine version.",
+    "EchoRank has no commercial relationship with Buttondown or any brand named in this report."
+  ]
+}

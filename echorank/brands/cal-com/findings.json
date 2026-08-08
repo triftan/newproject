@@ -1,0 +1,41 @@
+{
+  "brand": "Cal.com",
+  "slug": "cal-com",
+  "domain": "cal.com",
+  "category": "Scheduling infrastructure",
+  "competitors": ["Calendly", "SavvyCal", "Zoho Bookings", "Acuity"],
+  "tagline": "The open-source scheduling leader owns its niche in AI answers — but loses the generic buyer questions to Calendly almost every time.",
+  "generated": "2026-08-08",
+  "summary": "Cal.com has carved out total ownership of one AI-answer niche: any question containing 'open source' or 'self-hosted' scheduling returns Cal.com first, nearly every time. But the money is in the generic questions — 'best scheduling tool', 'best Calendly alternative' — and there, AI engines describe Cal.com through Calendly's frame ('an alternative to...') or omit it behind Acuity, Zoho Bookings and SavvyCal. The site is AI-readable (llms.txt present, 2,200+ extractable words) yet ships zero schema.org structured data, so engines get no machine-readable facts about pricing, product, or company to quote. The gap between niche dominance and generic invisibility is the whole opportunity.",
+  "money_queries": [
+    {"query": "best scheduling tool for startups", "presence": "mentioned", "winner": "Calendly", "evidence": "Answer-layer sources lead with Calendly and Zoho Bookings; Cal.com appears mid-list, framed as 'the open-source option'."},
+    {"query": "best Calendly alternative", "presence": "cited", "winner": "Cal.com", "evidence": "Consistently in the top 3 across the roundups engines retrieve (Zoho, Zeeg, calendly-alternatives.org), usually flagged for the generous free plan."},
+    {"query": "open source scheduling software", "presence": "cited", "winner": "Cal.com", "evidence": "Owns this query outright — first answer in effectively every sampled source."},
+    {"query": "scheduling API for developers", "presence": "cited", "winner": "Cal.com", "evidence": "API-first positioning lands; cited alongside Nylas in developer-focused sources."},
+    {"query": "best appointment booking app for small business", "presence": "absent", "winner": "Acuity", "evidence": "SMB-service roundups (salons, clinics, coaches) go to Acuity, Square Appointments, Zoho — Cal.com unnamed in sampled sources."},
+    {"query": "free scheduling app", "presence": "mentioned", "winner": "Calendly", "evidence": "Cal.com's unlimited free tier is its strongest fact, but answers default to Calendly's brand gravity; the free plan is mentioned when Cal.com appears at all."},
+    {"query": "cal.com vs calendly", "presence": "cited", "winner": "Calendly", "evidence": "Comparison content exists (G2, StackShare) but is authored on neutral/rival turf; G2's verdict language favors Calendly on satisfaction."},
+    {"query": "scheduling tool with Stripe payments", "presence": "mentioned", "winner": "Calendly", "evidence": "Cal.com's Stripe integration surfaces inconsistently; payment-scheduling answers split between Calendly, Acuity and SavvyCal."}
+  ],
+  "sources": [
+    {"channel": "Comparison roundups", "status": "strong", "detail": "Present in nearly every 'Calendly alternatives' listicle that answer engines retrieve — this is Cal.com's strongest citation asset."},
+    {"channel": "Reddit", "status": "weak", "detail": "Praised in r/selfhosted and dev threads, but generic scheduling advice threads default to Calendly; little Cal.com presence where non-developers ask."},
+    {"channel": "Wikipedia", "status": "weak", "detail": "No substantial standalone article — engines can't pull neutral encyclopedic facts about the company."},
+    {"channel": "Review sites (G2/Capterra)", "status": "weak", "detail": "Listed with a review base far smaller than Calendly's; G2's comparative language positions Calendly as the default winner."},
+    {"channel": "YouTube", "status": "weak", "detail": "Setup tutorials exist; almost no third-party 'best scheduling tool' videos feature Cal.com prominently."},
+    {"channel": "Own answerable content", "status": "strong", "detail": "llms.txt present, docs and homepage are text-rich and crawlable — the site itself is a good citation source when engines find it."}
+  ],
+  "roadmap": [
+    {"priority": 1, "title": "Ship schema.org JSON-LD sitewide", "why": "The probe found zero structured data. Organization, SoftwareApplication and Offer markup (with the unlimited-free-plan priced at $0) hands engines quotable facts — the cheapest fix with the widest reach.", "effort": "low"},
+    {"priority": 2, "title": "Publish own-domain comparison pages for every rival", "why": "'Cal.com vs Calendly' answers are currently assembled from G2 and StackShare — turf that favors the incumbent. Honest, spec-level comparison pages on cal.com give engines a first-party source to cite.", "effort": "medium"},
+    {"priority": 3, "title": "Target SMB-vertical queries where Cal.com is absent", "why": "Booking-for-salons/clinics/coaches answers name Acuity and Square, never Cal.com. Vertical landing pages + presence in vertical roundups opens a market currently at 0% share of voice.", "effort": "high"},
+    {"priority": 4, "title": "Seed the 'free scheduling app' claim everywhere", "why": "'Unlimited free events' is a category-best fact that engines under-report. Get it into the roundups, review-site listings and Reddit threads engines actually quote.", "effort": "medium"},
+    {"priority": 5, "title": "Build the Wikipedia-grade citation base", "why": "Engines lean on encyclopedic sources for company facts. Press coverage and a properly sourced article give answers a neutral anchor Calendly already enjoys.", "effort": "high"}
+  ],
+  "methodology_notes": [
+    "Site AI-readiness measured by EchoRank's automated probe of cal.com on 2026-08-08 (llms.txt, robots.txt AI-crawler policy, schema.org JSON-LD, sitemap, extractable text).",
+    "AI-answer presence assessed by sampling the retrieval layer answer engines cite for each money query — the top-ranked comparison and roundup sources, review sites, and community threads — in August 2026.",
+    "Beta disclosure: results are a point-in-time sample of the public citation layer, not a paid API sweep of every engine; AI answers vary by user, session and engine version.",
+    "EchoRank has no commercial relationship with Cal.com or any brand named in this report."
+  ]
+}

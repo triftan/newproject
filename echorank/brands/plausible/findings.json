@@ -1,0 +1,41 @@
+{
+  "brand": "Plausible Analytics",
+  "slug": "plausible",
+  "domain": "plausible.io",
+  "category": "Web analytics",
+  "competitors": ["Google Analytics", "Fathom", "Matomo", "Simple Analytics"],
+  "tagline": "The privacy-analytics poster child is quoted everywhere the category is discussed — and invisible everywhere it isn't.",
+  "generated": "2026-08-08",
+  "summary": "Plausible is what strong AI visibility looks like inside a niche: 'privacy-friendly analytics' and 'Google Analytics alternative' answers cite it near-universally, it has a real Wikipedia article engines quote for neutral facts, and r/selfhosted treats it as a default. The exposure is one level up: generic 'best web analytics tool' answers still open with GA4 and Mixpanel, and vertical questions ('analytics for e-commerce', 'analytics for SaaS') rarely name Plausible at all — buyers who don't already care about privacy never hear the name. On-site, the probe found only a bare WebSite schema block and no llms.txt: thin structured data for a company whose whole pitch is transparency.",
+  "money_queries": [
+    {"query": "best Google Analytics alternative", "presence": "cited", "winner": "Plausible", "evidence": "Top-cited across the roundups engines retrieve (Databuddy, SegmentStream, Builder.io); the only tool noted for real GA4 import."},
+    {"query": "privacy friendly web analytics", "presence": "cited", "winner": "Plausible", "evidence": "Owns the query with Fathom; 'lightweight, cookieless, open-source' is the standard description engines repeat."},
+    {"query": "best web analytics tool", "presence": "mentioned", "winner": "Google Analytics", "evidence": "Generic answers open with GA4, Mixpanel, Amplitude; Plausible appears only in the privacy footnote when it appears at all."},
+    {"query": "plausible vs fathom", "presence": "cited", "winner": "Plausible", "evidence": "Dedicated third-party comparisons exist (Faurya et al.); verdicts are split but Plausible's open-source angle usually earns the nod."},
+    {"query": "self-hosted analytics", "presence": "cited", "winner": "Matomo", "evidence": "Cited consistently, but Matomo and Umami take the top slots; Plausible's self-hosting is framed as secondary to its cloud product."},
+    {"query": "analytics for e-commerce store", "presence": "absent", "winner": "Google Analytics", "evidence": "Vertical answers name GA4, Triple Whale, Shopify-native tools — Plausible unnamed in sampled sources."},
+    {"query": "simple analytics for indie hackers", "presence": "cited", "winner": "Plausible", "evidence": "Indie-hacker and dev-blog sources default to Plausible; strong Reddit reinforcement."},
+    {"query": "GDPR compliant analytics without cookie banner", "presence": "cited", "winner": "Plausible", "evidence": "Compliance-driven answers cite Plausible and Fathom as the standard pair; EU-hosted framing works in its favor."}
+  ],
+  "sources": [
+    {"channel": "Wikipedia", "status": "strong", "detail": "A real, well-maintained article — engines quote it for neutral company facts. Rare asset at this company size; Fathom lacks one."},
+    {"channel": "Comparison roundups", "status": "strong", "detail": "Present in effectively every 'GA alternative' listicle in the retrieval layer, usually top-3."},
+    {"channel": "Reddit", "status": "strong", "detail": "r/selfhosted, r/webdev and r/privacy treat Plausible as a default recommendation; exactly the threads engines quote."},
+    {"channel": "Review sites (G2/Capterra)", "status": "weak", "detail": "Modest review volume; enterprise-skewed review sites under-represent its actual mindshare."},
+    {"channel": "YouTube", "status": "weak", "detail": "Some setup content; little presence in broader 'choose your analytics stack' videos."},
+    {"channel": "Own answerable content", "status": "strong", "detail": "Text-rich, crawlable site and a widely-linked blog whose GA-critique posts are themselves cited by engines."}
+  ],
+  "roadmap": [
+    {"priority": 1, "title": "Publish llms.txt and expand JSON-LD beyond bare WebSite", "why": "For a transparency-first brand, the machine-readable layer is oddly thin. Organization, SoftwareApplication and Offer markup plus llms.txt is a day of work that upgrades every engine's fact base.", "effort": "low"},
+    {"priority": 2, "title": "Attack the generic 'best web analytics' frame", "why": "The privacy niche is won; growth is buyers who never searched 'privacy'. A flagship 'GA4 vs the field' comparison hub gives engines a reason to name Plausible in generic answers.", "effort": "medium"},
+    {"priority": 3, "title": "Build vertical answer pages (e-commerce, SaaS, agencies)", "why": "Vertical queries return 0% Plausible today. 'Plausible for e-commerce' content with real dashboards gives the retrieval layer something to cite.", "effort": "medium"},
+    {"priority": 4, "title": "Grow the review-site base", "why": "G2/Capterra verdict language reaches engine answers verbatim; a review-collection push closes the gap between actual mindshare and reviewed mindshare.", "effort": "medium"},
+    {"priority": 5, "title": "Reclaim 'self-hosted analytics' from Matomo/Umami", "why": "Community Edition exists but engines rank it behind both. Clearer self-hosting docs and presence in the r/selfhosted canon lists would move a query Plausible already half-owns.", "effort": "medium"}
+  ],
+  "methodology_notes": [
+    "Site AI-readiness measured by EchoRank's automated probe of plausible.io on 2026-08-08 (llms.txt, robots.txt AI-crawler policy, schema.org JSON-LD, sitemap, extractable text).",
+    "AI-answer presence assessed by sampling the retrieval layer answer engines cite for each money query — top-ranked comparisons, roundups, review sites and community threads — in August 2026.",
+    "Beta disclosure: results are a point-in-time sample of the public citation layer, not a paid API sweep of every engine; AI answers vary by user, session and engine version.",
+    "EchoRank has no commercial relationship with Plausible or any brand named in this report."
+  ]
+}
