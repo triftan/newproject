@@ -1,0 +1,62 @@
+{
+  "domain": "cap.so",
+  "base_url": "https://cap.so",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Cap \u2014 Beautiful screen recordings, owned by you.",
+      "meta_description": "Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
+      "h1_count": 0,
+      "h2_count": 9,
+      "visible_word_count": 2030,
+      "faq_signal": true,
+      "schema_types": [
+        "AggregateOffer",
+        "AggregateRating",
+        "Answer",
+        "Brand",
+        "BreadcrumbList",
+        "ContactPoint",
+        "FAQPage",
+        "ImageObject",
+        "ListItem",
+        "Offer",
+        "Organization",
+        "Person",
+        "Product",
+        "QuantitativeValue",
+        "Question",
+        "Rating",
+        "Review",
+        "SoftwareApplication",
+        "WebSite"
+      ]
+    },
+    "llms_txt": true,
+    "llms_full_txt": true,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 95,
+  "max_score": 100,
+  "notes": [
+    "No H1 on the homepage \u2014 answer engines lean on heading structure to extract claims."
+  ]
+}

@@ -1,0 +1,11 @@
+domain,company,category,main_rival,probe_score,to_address,status,notes
+savvycal.com,SavvyCal,Scheduling,Calendly,55,hello@savvycal.com,drafted,verify address before send
+usefathom.com,Fathom Analytics,Web analytics,Plausible,85,hello@usefathom.com,drafted,named in our published Plausible report
+tally.so,Tally,Form builders,Typeform,85,hello@tally.so,drafted,verify address before send
+senja.io,Senja,Testimonials,Testimonial.to,55,hello@senja.io,drafted,verify address before send
+loops.so,Loops,Email for SaaS,Customer.io,80,hello@loops.so,drafted,verify address before send
+dub.co,Dub,Link management,Bitly,75,support@dub.co,drafted,verify address before send
+papermark.com,Papermark,Doc sharing,DocSend,85,support@papermark.com,drafted,verify address before send
+documenso.com,Documenso,E-signatures,DocuSign,55,hello@documenso.com,drafted,verify address before send
+formbricks.com,Formbricks,Surveys,Typeform,70,hola@formbricks.com,drafted,verify address before send
+cap.so,Cap,Screen recording,Loom,95,hello@cap.so,drafted,best probe score yet — flattery angle

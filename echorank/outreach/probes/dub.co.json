@@ -1,0 +1,50 @@
+{
+  "domain": "dub.co",
+  "base_url": "https://dub.co",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Dub - The Modern Link Attribution Platform",
+      "meta_description": "Dub is the modern link attribution platform for short links, conversion tracking, and affiliate programs.",
+      "h1_count": 1,
+      "h2_count": 10,
+      "visible_word_count": 2067,
+      "faq_signal": false,
+      "schema_types": [
+        "ContactPoint",
+        "Organization",
+        "Person",
+        "PostalAddress",
+        "QuantitativeValue",
+        "SoftwareApplication",
+        "WebPage"
+      ]
+    },
+    "llms_txt": false,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 75,
+  "max_score": 100,
+  "notes": [
+    "No llms.txt \u2014 the emerging standard for handing AI models a curated map of your site."
+  ]
+}

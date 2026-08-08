@@ -1,0 +1,46 @@
+{
+  "domain": "loops.so",
+  "base_url": "https://loops.so",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Loops | Email Marketing Software for SaaS Teams",
+      "meta_description": "Loops is email marketing software for SaaS teams to send marketing, lifecycle, and transactional email from one product. Free to start.",
+      "h1_count": 0,
+      "h2_count": 10,
+      "visible_word_count": 856,
+      "faq_signal": false,
+      "schema_types": [
+        "Offer",
+        "Organization",
+        "SoftwareApplication"
+      ]
+    },
+    "llms_txt": true,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 80,
+  "max_score": 100,
+  "notes": [
+    "No H1 on the homepage \u2014 answer engines lean on heading structure to extract claims."
+  ]
+}

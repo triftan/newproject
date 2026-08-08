@@ -1,0 +1,42 @@
+{
+  "domain": "papermark.com",
+  "base_url": "https://papermark.com",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Papermark | Secure data rooms for modern dealmakers",
+      "meta_description": "metadata.description",
+      "h1_count": 1,
+      "h2_count": 6,
+      "visible_word_count": 863,
+      "faq_signal": false,
+      "schema_types": [
+        "Organization"
+      ]
+    },
+    "llms_txt": true,
+    "llms_full_txt": true,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 85,
+  "max_score": 100,
+  "notes": []
+}

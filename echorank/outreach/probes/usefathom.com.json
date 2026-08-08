@@ -1,0 +1,43 @@
+{
+  "domain": "usefathom.com",
+  "base_url": "https://usefathom.com",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Fathom Analytics: A Better Google Analytics Alternative",
+      "meta_description": "Ditch complex, intrusive analytics for Fathom - a better Google analytics alternative. Experience ease of use, forever data retention & full legal compliance.",
+      "h1_count": 1,
+      "h2_count": 7,
+      "visible_word_count": 1415,
+      "faq_signal": false,
+      "schema_types": [
+        "Organization",
+        "Person"
+      ]
+    },
+    "llms_txt": true,
+    "llms_full_txt": true,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": false
+  },
+  "score": 85,
+  "max_score": 100,
+  "notes": []
+}

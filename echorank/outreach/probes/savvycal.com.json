@@ -1,0 +1,43 @@
+{
+  "domain": "savvycal.com",
+  "base_url": "https://savvycal.com",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Scheduling Software Everyone Will Love \u00b7 SavvyCal",
+      "meta_description": "",
+      "h1_count": 1,
+      "h2_count": 16,
+      "visible_word_count": 502,
+      "faq_signal": false,
+      "schema_types": []
+    },
+    "llms_txt": false,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 55,
+  "max_score": 100,
+  "notes": [
+    "No schema.org JSON-LD found \u2014 engines get zero structured facts about the business.",
+    "No llms.txt \u2014 the emerging standard for handing AI models a curated map of your site."
+  ]
+}

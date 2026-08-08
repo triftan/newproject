@@ -1,0 +1,43 @@
+{
+  "domain": "formbricks.com",
+  "base_url": "https://formbricks.com",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "The Open Source Experience Data Hub",
+      "meta_description": "Formbricks is an open-source experience management platform for surveys, in-app feedback, and customer insights. Own your data with full privacy.",
+      "h1_count": 0,
+      "h2_count": 7,
+      "visible_word_count": 599,
+      "faq_signal": true,
+      "schema_types": []
+    },
+    "llms_txt": true,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 70,
+  "max_score": 100,
+  "notes": [
+    "No H1 on the homepage \u2014 answer engines lean on heading structure to extract claims.",
+    "No schema.org JSON-LD found \u2014 engines get zero structured facts about the business."
+  ]
+}

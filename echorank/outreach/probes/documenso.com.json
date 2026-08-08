@@ -1,0 +1,44 @@
+{
+  "domain": "documenso.com",
+  "base_url": "https://documenso.com",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Documenso - The Open Source DocuSign Alternative",
+      "meta_description": "Sign everywhere with Documenso. Build workflows, create templates, and integrate seamlessly with tools you love\u2014modern, secure, and customizable for any scale.",
+      "h1_count": 0,
+      "h2_count": 0,
+      "visible_word_count": 2087,
+      "faq_signal": true,
+      "schema_types": []
+    },
+    "llms_txt": false,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 55,
+  "max_score": 100,
+  "notes": [
+    "No H1 on the homepage \u2014 answer engines lean on heading structure to extract claims.",
+    "No schema.org JSON-LD found \u2014 engines get zero structured facts about the business.",
+    "No llms.txt \u2014 the emerging standard for handing AI models a curated map of your site."
+  ]
+}
