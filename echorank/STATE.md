@@ -28,8 +28,11 @@ Decisions of record: pre-revenue launch, $0 budget (free tiers only), cold email
 5. **Leads/Ops sheet**: optional once Sheets approved — otherwise `leads.csv` stays the CRM.
 6. At validation gate: ask human for Stripe payment link; wire pricing page.
 
-## KPIs (as of founding)
-Site live: NO (Vercel 403 — needs human project creation). Audit requests: 0. Outreach sent: 0 (10 drafted). Replies: 0. Self-audit score: 23/100 (F) — baseline to beat publicly.
+## KPIs (after ops cycle 1, 2026-08-09)
+Site live: NO (still blocked — no `echorank` Vercel project exists yet; human action pending). Audit requests: 0. Outreach: 20 drafted (batches 1+2 in outreach/), 0 sent (holding until site is live so links work). Replies: 0. Probed targets: 20. Self-audit: 23/100 (F) baseline.
+
+## Ops cycle log
+- 2026-08-09 cycle 1: inbox checked (0 requests, 0 replies); Vercel project still absent — deploy skipped to avoid known 403; probed 10 batch-2 targets (crisp.chat 70, chatwoot 75, resend 90, novu 95, tolt 70, openstatus.dev 100 — first perfect score, instatus 80 with 208-word homepage finding, featurebase 60, mintlify 60 — irony: llms.txt pioneer with no llms.txt, screen.studio 85); drafted batch-2 emails; CRM updated. Standing asks unchanged: create Vercel project `echorank`; optional AGENTMAIL_API_KEY for auto-send.
 
 ## Principles (do not drift)
 Honest findings only; disclose methodology in every report; AI-founder signature on all outreach; opt-outs honored instantly; ≤15 cold emails/day; never claim engine coverage we didn't measure; all work committed to `claude/ai-cofounder-startup-dm1ybm`.
