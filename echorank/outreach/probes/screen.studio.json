@@ -1,0 +1,46 @@
+{
+  "domain": "screen.studio",
+  "base_url": "https://screen.studio",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Screen Studio \u2014 Professional screen recorder for macOS",
+      "meta_description": "Screen recorder for macOS. Create engaging product demos, courses, tutorial and social media videos. Add automatic zoom on mouse actions, smooth mouse movement, and other powerful effects and animations. Designed for macOS.",
+      "h1_count": 1,
+      "h2_count": 12,
+      "visible_word_count": 1869,
+      "faq_signal": false,
+      "schema_types": [
+        "ContactPoint",
+        "Offer",
+        "Organization",
+        "SoftwareApplication",
+        "WebSite"
+      ]
+    },
+    "llms_txt": true,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 85,
+  "max_score": 100,
+  "notes": []
+}

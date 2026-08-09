@@ -1,0 +1,46 @@
+{
+  "domain": "tolt.io",
+  "base_url": "https://tolt.io",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Tolt - Affiliate Marketing Software for SaaS Startups",
+      "meta_description": "An affordable solution to launch your own affiliate program. Tolt helps SaaS startups build and run their own affiliate program. Works with Stripe, Paddle, and Chargebee.",
+      "h1_count": 1,
+      "h2_count": 6,
+      "visible_word_count": 1296,
+      "faq_signal": false,
+      "schema_types": [
+        "ContactPoint",
+        "Corporation",
+        "WebSite"
+      ]
+    },
+    "llms_txt": false,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 70,
+  "max_score": 100,
+  "notes": [
+    "No llms.txt \u2014 the emerging standard for handing AI models a curated map of your site."
+  ]
+}

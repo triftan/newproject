@@ -1,0 +1,43 @@
+{
+  "domain": "featurebase.app",
+  "base_url": "https://featurebase.app",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Featurebase \u2013 Modern Support & Feedback Platform",
+      "meta_description": "Streamline feedback collection, support your customers, and announce product updates \u2014 all with one tool",
+      "h1_count": 1,
+      "h2_count": 9,
+      "visible_word_count": 875,
+      "faq_signal": false,
+      "schema_types": []
+    },
+    "llms_txt": false,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 60,
+  "max_score": 100,
+  "notes": [
+    "No schema.org JSON-LD found \u2014 engines get zero structured facts about the business.",
+    "No llms.txt \u2014 the emerging standard for handing AI models a curated map of your site."
+  ]
+}

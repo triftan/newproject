@@ -1,0 +1,53 @@
+{
+  "domain": "novu.co",
+  "base_url": "https://novu.co",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "Novu - Connect your AI agents and products to customers",
+      "meta_description": "Novu is the open-source notification and agent communication infrastructure. Connect AI agents and products to customers across in-app, email, SMS, push, WhatsApp, Slack, Microsoft Teams, and Telegram with one API. Start with npx novu connect.",
+      "h1_count": 1,
+      "h2_count": 10,
+      "visible_word_count": 1230,
+      "faq_signal": true,
+      "schema_types": [
+        "Answer",
+        "FAQPage",
+        "ItemList",
+        "ListItem",
+        "Offer",
+        "Organization",
+        "Person",
+        "Question",
+        "Review",
+        "SoftwareApplication",
+        "WebPage",
+        "WebSite"
+      ]
+    },
+    "llms_txt": true,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": false
+  },
+  "score": 95,
+  "max_score": 100,
+  "notes": []
+}

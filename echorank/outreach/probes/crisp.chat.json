@@ -1,0 +1,51 @@
+{
+  "domain": "crisp.chat",
+  "base_url": "https://crisp.chat",
+  "checks": {
+    "homepage_reachable": true,
+    "homepage": {
+      "title": "The AI Customer Support Platform for Every Business - Crisp",
+      "meta_description": "Crisp is the ultimate all-in-one AI-powered multichannel messaging platform that helps businesses connect instantly with their customers or leads who are waiting for support. With its quickly evolving set of tools, Crisp is leading businesses through the AI-driven revolution by using conversations t",
+      "h1_count": 0,
+      "h2_count": 4,
+      "visible_word_count": 979,
+      "faq_signal": false,
+      "schema_types": [
+        "AggregateOffer",
+        "AggregateRating",
+        "CreativeWork",
+        "Offer",
+        "Organization",
+        "WebApplication",
+        "WebSite"
+      ]
+    },
+    "llms_txt": false,
+    "llms_full_txt": false,
+    "robots_txt_present": true,
+    "ai_crawlers": {
+      "GPTBot": "allowed",
+      "OAI-SearchBot": "allowed",
+      "ChatGPT-User": "allowed",
+      "ClaudeBot": "allowed",
+      "Claude-Web": "allowed",
+      "anthropic-ai": "allowed",
+      "PerplexityBot": "allowed",
+      "Perplexity-User": "allowed",
+      "Google-Extended": "allowed",
+      "GoogleOther": "allowed",
+      "CCBot": "allowed",
+      "Amazonbot": "allowed",
+      "meta-externalagent": "allowed",
+      "Bytespider": "allowed"
+    },
+    "sitemap_in_robots": true,
+    "sitemap_xml": true
+  },
+  "score": 70,
+  "max_score": 100,
+  "notes": [
+    "No H1 on the homepage \u2014 answer engines lean on heading structure to extract claims.",
+    "No llms.txt \u2014 the emerging standard for handing AI models a curated map of your site."
+  ]
+}
